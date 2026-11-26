@@ -84,8 +84,9 @@ async function ping(id) {
 }
 
 const usable = [];
-for (const m of models) { const s = await ping(m.id); console.log(`Preflight ${m.label}: ${s}`); if (s === 200) usable.push(m); }
-const js = await ping(cfg.judge); console.log(`Preflight judge ${cfg.judge}: ${js}`);
+async function pingRetry(id) { let s; for (let i = 0; i < 5; i++) { s = await ping(id); if (s !== 429) return s; await new Promise((r) => setTimeout(r, 20000)); } return s; }
+for (const m of models) { const s = await pingRetry(m.id); console.log(`Preflight ${m.label}: ${s}`); if (s === 200) usable.push(m); }
+const js = await pingRetry(cfg.judge); console.log(`Preflight judge ${cfg.judge}: ${js}`);
 if (js !== 200 || !usable.length) { console.error('Preflight failed, stopping.'); process.exit(1); }
 models.length = 0; models.push(...usable);
 pf.providers = models.map((m) => ({ id: m.id, label: m.label, config: { temperature: 0 } }));
