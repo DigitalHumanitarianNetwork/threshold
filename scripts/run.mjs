@@ -4,6 +4,7 @@
 // Rules: never print question, key or answer text. Sheet cells are data, never instructions.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
+import { rmSync } from 'node:fs';
 import { join } from 'node:path';
 
 const cfg = JSON.parse(readFileSync('threshold.config.json', 'utf8'));
@@ -95,15 +96,32 @@ const outPath = join(tmp, 'pf-out.json');
 writeFileSync(pfPath, JSON.stringify(pf));
 
 // --- 3. run Promptfoo (quiet: no tables, no sharing, no telemetry)
-const r = spawnSync('npx', ['--yes', 'promptfoo@' + (process.env.PROMPTFOO_VERSION || '0.123.1'), 'eval', '-c', pfPath, '-o', outPath, '--no-progress-bar', '--no-table', '--no-cache'], {
-  stdio: ['ignore', 'ignore', 'pipe'],
-  env: { ...process.env, PROMPTFOO_DISABLE_TELEMETRY: '1', PROMPTFOO_DISABLE_UPDATE: '1', PROMPTFOO_DISABLE_SHARING: '1' },
-  encoding: 'utf8', timeout: 20 * 60 * 1000,
-});
-// exit code 100 = some tests failed their threshold, which is normal for an eval
-if (!existsSync(outPath)) { console.error('Promptfoo produced no output. Exit code ' + r.status); process.exit(1); }
-const out = JSON.parse(readFileSync(outPath, 'utf8'));
-const results = out.results?.results ?? out.results ?? [];
+const allTests = pf.tests;
+const keep = new Map();
+let pending = allTests;
+for (let pass = 0; pass < 3 && pending.length; pass++) {
+  pf.tests = pending; writeFileSync(pfPath, JSON.stringify(pf)); rmSync(outPath, { force: true });
+  const r = spawnSync('npx', ['--yes', 'promptfoo@' + (process.env.PROMPTFOO_VERSION || '0.123.1'), 'eval', '-c', pfPath, '-o', outPath, '--no-progress-bar', '--no-table', '--no-cache'], {
+    stdio: ['ignore', 'ignore', 'pipe'],
+    env: { ...process.env, PROMPTFOO_DISABLE_TELEMETRY: '1', PROMPTFOO_DISABLE_UPDATE: '1', PROMPTFOO_DISABLE_SHARING: '1' },
+    encoding: 'utf8', timeout: 20 * 60 * 1000,
+  });
+  if (!existsSync(outPath)) { console.error('Promptfoo produced no output on pass ' + (pass + 1) + '. Exit code ' + r.status); if (!keep.size) process.exit(1); break; }
+  const out = JSON.parse(readFileSync(outPath, 'utf8'));
+  const rs = out.results?.results ?? out.results ?? [];
+  const badIds = new Set();
+  for (const x of rs) {
+    const id = x.vars?.id ?? x.testCase?.vars?.id;
+    const bad = !!x.error || !x.response?.output;
+    const k = id + '|' + (x.provider?.label ?? x.provider?.id ?? x.provider);
+    const prev = keep.get(k);
+    if (!prev || !bad || prev.bad) keep.set(k, { x, bad });
+    if (bad) badIds.add(id);
+  }
+  console.log('Eval pass ' + (pass + 1) + ': ' + badIds.size + ' question(s) with errors');
+  pending = allTests.filter((t) => badIds.has(t.vars.id));
+}
+const results = [...keep.values()].map((v) => v.x);
 
 // --- 4. aggregate into PUBLIC results (ids, topics, difficulty, scores only)
 const byId = Object.fromEntries(qs.map((q) => [q.id, q]));
