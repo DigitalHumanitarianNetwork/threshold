@@ -73,6 +73,31 @@ const pf = {
   tests: qs.map((q) => ({ vars: { id: q.id, question: q.question, ideal: q.ideal, keypoints: q.keypoints, mustnot: q.mustnot } })),
   evaluateOptions: { maxConcurrency: 1, delay: cfg.delay_ms, cache: false },
 };
+
+// --- 2b. preflight: one tiny call per model and for the judge. Prints HTTP status only, never content.
+async function ping(id) {
+  const [prov, ...rest] = id.split(':'); const model = rest.join(':');
+  const ctl = AbortSignal.timeout(60000);
+  try {
+    let r;
+    if (prov === 'google') {
+      r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, { method: 'POST', signal: ctl,
+        headers: { 'content-type': 'application/json', 'x-goog-api-key': process.env.GOOGLE_API_KEY },
+        body: JSON.stringify({ contents: [{ parts: [{ text: 'Reply with the word ok.' }] }] }) });
+    } else {
+      r = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', signal: ctl,
+        headers: { 'content-type': 'application/json', authorization: 'Bearer ' + process.env.OPENROUTER_API_KEY },
+        body: JSON.stringify({ model, messages: [{ role: 'user', content: 'Reply with the word ok.' }], max_tokens: 20 }) });
+    }
+    return r.status;
+  } catch (e) { return 'fail:' + (e.name || 'error'); }
+}
+const usable = [];
+for (const m of models) { const s = await ping(m.id); console.log(`Preflight ${m.label}: ${s}`); if (s === 200) usable.push(m); }
+const js = await ping(cfg.judge); console.log(`Preflight judge ${cfg.judge}: ${js}`);
+if (js !== 200 || !usable.length) { console.error('Preflight failed, stopping.'); process.exit(1); }
+models.length = 0; models.push(...usable);
+pf.providers = models.map((m) => ({ id: m.id, label: m.label, config: { temperature: 0 } }));
 const pfPath = join(tmp, 'pf-config.json');
 const outPath = join(tmp, 'pf-out.json');
 writeFileSync(pfPath, JSON.stringify(pf));
@@ -81,7 +106,7 @@ writeFileSync(pfPath, JSON.stringify(pf));
 const r = spawnSync('npx', ['--yes', 'promptfoo@' + (process.env.PROMPTFOO_VERSION || '0.123.1'), 'eval', '-c', pfPath, '-o', outPath, '--no-progress-bar', '--no-table', '--no-cache'], {
   stdio: ['ignore', 'ignore', 'pipe'],
   env: { ...process.env, PROMPTFOO_DISABLE_TELEMETRY: '1', PROMPTFOO_DISABLE_UPDATE: '1', PROMPTFOO_DISABLE_SHARING: '1' },
-  encoding: 'utf8',
+  encoding: 'utf8', timeout: 20 * 60 * 1000,
 });
 // exit code 100 = some tests failed their threshold, which is normal for an eval
 if (!existsSync(outPath)) { console.error('Promptfoo produced no output. Exit code ' + r.status); process.exit(1); }
