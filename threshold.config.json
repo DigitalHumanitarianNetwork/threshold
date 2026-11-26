@@ -27,7 +27,7 @@
     }
   ],
   "answer_instruction": "Answer the following question about humanitarian work. Be accurate and concise (under 250 words).",
-  "delay_ms": 3000,
+  "delay_ms": 8000,
   "judge_options": {
     "gemini": "google:gemini-3.5-flash-lite",
     "openrouter_free": "openrouter:nvidia/nemotron-3-ultra-550b-a55b:free"
