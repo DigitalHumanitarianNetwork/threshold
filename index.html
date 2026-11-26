@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Threshold | Digital Humanitarian Network</title>
-<meta name="description" content="Threshold is an early-stage project of the Digital Humanitarian Network to evaluate how well AI models perform on real humanitarian questions.">
+<meta name="description" content="Threshold is an early-stage Digital Humanitarian Network project exploring how AI models answer real humanitarian questions.">
 <link rel="icon" href="https://brand.digitalhumanitarians.com/favicon.ico" sizes="any">
 <style>
   @font-face{font-family:"Betina Sans";font-weight:400;font-style:normal;font-display:swap;src:url("https://brand.digitalhumanitarians.com/fonts/BetinaSans-Regular.woff") format("woff")}
@@ -17,9 +17,8 @@
   a{color:var(--teal);text-decoration:none}a:hover{text-decoration:underline}
   .wrap{max-width:1040px;margin:0 auto;padding:0 24px}
   header{background:var(--gray)}
-  header .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:12px;padding-bottom:12px}
-  header img{height:56px;width:auto;max-width:none}
-  header a.ext{color:#fff;opacity:.85;font-size:14px}
+  header .wrap{display:flex;align-items:center;justify-content:flex-start;padding-top:18px;padding-bottom:18px}
+  header img{height:88px;width:auto;max-width:none}
   .hero{background:var(--gray) url("https://brand.digitalhumanitarians.com/DHN_background_blue.jpg") center/cover no-repeat;color:#fff;padding:88px 0 76px}
   .hero .tag{display:inline-block;background:var(--yellow-l);color:var(--ink);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;padding:6px 12px;border-radius:4px;margin-bottom:22px}
   .hero h1{font-family:"Betina Sans",sans-serif;font-size:clamp(38px,7vw,64px);line-height:1.1;font-weight:700}
@@ -38,13 +37,13 @@
   footer{background:var(--ink);color:#bdbdb8;padding:34px 0;font-size:14px}
   footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
   footer a{color:#fff}
+  @media(max-width:600px){header img{height:72px}.hero{padding:64px 0 56px}section{padding:48px 0}}
 </style>
 </head>
 <body>
 <header>
   <div class="wrap">
     <a href="https://digitalhumanitarians.com/" aria-label="Digital Humanitarian Network"><img src="https://brand.digitalhumanitarians.com/DHN_LOGO_WHITE.png" alt="Digital Humanitarian Network"></a>
-    <a class="ext" href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a>
   </div>
 </header>
 
@@ -61,11 +60,11 @@
 <section>
   <div class="wrap">
     <h2>The idea</h2>
-    <p class="lead">More and more people in the humanitarian sector are turning to AI models for answers. Threshold is a planned evaluation service that tests how well those models do on real humanitarian questions, so people can see where they are reliable and where they are not.</p>
+    <p class="lead">People working in humanitarian response are increasingly turning to AI for answers. Threshold is a planned evaluation service to test model performance against real questions from this work, helping people understand what they can rely on and where the limits are.</p>
     <div class="grid">
-      <div class="card"><h3>Real questions</h3><p>Questions drawn from the kinds of things humanitarian practitioners actually need to know, not generic quiz material.</p></div>
-      <div class="card"><h3>Reference answers</h3><p>Each question comes with an ideal answer, written and reviewed by people who know the work.</p></div>
-      <div class="card"><h3>Public good, private tests</h3><p>Results are meant to be shared openly. The test questions and answer keys are kept private so models cannot simply learn them.</p></div>
+      <div class="card"><h3>Real questions</h3><p>Questions based on what humanitarian practitioners need to know in their work.</p></div>
+      <div class="card"><h3>Reference answers</h3><p>Each question will have an ideal answer prepared and reviewed by people with relevant experience.</p></div>
+      <div class="card"><h3>Public good, private tests</h3><p>Results are intended to be shared openly, while test questions and answer keys stay private so models cannot simply learn them.</p></div>
     </div>
   </div>
 </section>
@@ -73,7 +72,7 @@
 <section class="alt">
   <div class="wrap">
     <h2>Where things stand</h2>
-    <p class="lead">We are starting with the humanitarian sector, learning what people need, and defining how questions, scoring and answer keys should work. If it goes well, the approach could later be adapted to other fields. The details, including the first question sets and any results, will be published here as they are ready.</p>
+    <p class="lead">The work is starting with humanitarian use cases: learning what practitioners need and working out how questions, scoring and answer keys should be handled. If it proves useful, the approach could later be adapted to other fields. Details and results will be added here when they are ready.</p>
     <p class="lead" style="margin-top:0">Interested in contributing or following along? Get in touch at <a href="mailto:contact@digitalhumanitarians.com">contact@digitalhumanitarians.com</a>.</p>
   </div>
 </section>
@@ -81,7 +80,7 @@
 <footer>
   <div class="wrap">
     <span>&copy; Digital Humanitarian Network</span>
-    <span><a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a> &middot; <a href="https://github.com/DigitalHumanitarianNetwork/threshold">GitHub</a></span>
+    <span><a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></span>
   </div>
 </footer>
 </body>
