@@ -6,8 +6,13 @@
     "rejected"
   ],
   "pass_threshold": 0.7,
-  "judge": "openrouter:nvidia/nemotron-3-ultra-550b-a55b:free",
+  "judge": "google:gemini-3.5-flash-lite",
   "models": [
+    {
+      "id": "google:gemini-3.5-flash-lite",
+      "label": "Gemini 3.5 Flash-Lite",
+      "key": "gemini"
+    },
     {
       "id": "openrouter:google/gemma-4-31b-it:free",
       "label": "Gemma 4 31B (free, OpenRouter)",
@@ -17,12 +22,6 @@
       "id": "openrouter:inclusionai/ling-3.2-flash:free",
       "label": "Ling 3.2 Flash (free, OpenRouter)",
       "key": "openrouter"
-    },
-    {
-      "id": "google:gemini-3.5-flash-lite",
-      "label": "Gemini 3.5 Flash-Lite",
-      "key": "gemini",
-      "enabled": false
     }
   ],
   "answer_instruction": "Answer the following question about humanitarian work. Be accurate and concise (under 250 words).",
@@ -31,5 +30,5 @@
     "gemini": "google:gemini-3.5-flash-lite",
     "openrouter_free": "openrouter:nvidia/nemotron-3-ultra-550b-a55b:free"
   },
-  "note": "Gemini is switched off (enabled false) until a working GEMINI_API_KEY exists. To switch back: set enabled true on the Gemini model and set judge to judge_options.gemini."
+  "note": "Gemini is on. To switch it off: set enabled false on the Gemini model and set judge to judge_options.openrouter_free."
 }
