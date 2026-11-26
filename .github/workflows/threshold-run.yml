@@ -24,20 +24,18 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
           token_format: access_token
-          access_token_scopes: https://www.googleapis.com/auth/spreadsheets.readonly
+          access_token_scopes: https://www.googleapis.com/auth/spreadsheets
       - name: Run questions and score
         env:
           SHEETS_TOKEN: ${{ steps.auth.outputs.access_token }}
           THRESHOLD_SHEET_ID: ${{ vars.THRESHOLD_SHEET_ID }}
           GOOGLE_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          THRESHOLD_RAW_KEY: ${{ secrets.THRESHOLD_RAW_KEY }}
           QUESTION_LIMIT: ${{ inputs.question_limit }}
-          THRESHOLD_DIAG: "1"
         run: node scripts/run.mjs
       - name: Commit results
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add results raw 2>/dev/null || git add results
+          git add results
           git diff --cached --quiet || (git commit -m "Threshold run results" && git push)
