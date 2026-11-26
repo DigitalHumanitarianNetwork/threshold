@@ -83,13 +83,6 @@ async function ping(id) {
   } catch (e) { return 'fail:' + (e.name || 'error'); }
 }
 
-if (process.env.THRESHOLD_DIAG) {
-  const lr = await fetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=100', { headers: { 'x-goog-api-key': process.env.GOOGLE_API_KEY } });
-  console.log('Diag list models:', lr.status);
-  if (lr.ok) console.log('Diag models:', (await lr.json()).models.map((m) => m.name.replace('models/', '')).filter((n) => /^gemini-[0-9]/.test(n) && !/tts|image|live|embed|preview|audio/.test(n)).join(', '));
-  console.log('Diag key length:', (process.env.GOOGLE_API_KEY || '').length, 'has whitespace:', /\s/.test(process.env.GOOGLE_API_KEY || ''));
-  console.log('Diag gemini-2.5-flash-lite:', await ping('google:gemini-2.5-flash-lite'));
-}
 const usable = [];
 for (const m of models) { const s = await ping(m.id); console.log(`Preflight ${m.label}: ${s}`); if (s === 200) usable.push(m); }
 const js = await ping(cfg.judge); console.log(`Preflight judge ${cfg.judge}: ${js}`);
