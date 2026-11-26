@@ -114,6 +114,7 @@ for (const x of results) {
   const id = x.vars?.id ?? x.testCase?.vars?.id;
   const m = label(x.provider);
   const err = !!x.error || !x.response?.output;
+  if (x.error) console.log('Item error', id, m, String(x.error).split(/\s+/).filter((w) => /^(\d{3}|rate|quota|limit|timeout|timed|parse|JSON|safety|blocked|empty|invalid|exceeded|unavailable|overloaded)/i.test(w)).slice(0, 8).join(' '));
   const score = err ? null : (x.gradingResult?.score ?? x.score ?? null);
   (per[m] ??= {})[id] = { score, pass: err ? null : !!x.gradingResult?.pass, error: err };
   raw.push({ id, model: m, answer: x.response?.output ?? null, error: x.error ?? null, score, judge_reason: x.gradingResult?.reason ?? null, latency_ms: x.latencyMs ?? null });
