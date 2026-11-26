@@ -39,7 +39,7 @@ console.log(`Questions loaded: ${qs.length}`);
 if (!qs.length) throw new Error('No questions found');
 
 // --- 2. build the Promptfoo config in the runner temp dir (never committed)
-const models = cfg.models.filter((m) => {
+const models = cfg.models.filter((m) => m.enabled !== false).filter((m) => {
   const k = m.key === 'gemini' ? process.env.GOOGLE_API_KEY : process.env.OPENROUTER_API_KEY;
   if (!k) console.log(`Skipping ${m.label}: no key`);
   return !!k;
