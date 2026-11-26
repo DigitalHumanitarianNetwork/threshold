@@ -16,12 +16,14 @@
     {
       "id": "openrouter:google/gemma-4-31b-it:free",
       "label": "Gemma 4 31B (free, OpenRouter)",
-      "key": "openrouter"
+      "key": "openrouter",
+      "enabled": false
     },
     {
       "id": "openrouter:inclusionai/ling-3.2-flash:free",
       "label": "Ling 3.2 Flash (free, OpenRouter)",
-      "key": "openrouter"
+      "key": "openrouter",
+      "enabled": false
     }
   ],
   "answer_instruction": "Answer the following question about humanitarian work. Be accurate and concise (under 250 words).",
