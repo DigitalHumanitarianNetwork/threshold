@@ -33,6 +33,7 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           THRESHOLD_RAW_KEY: ${{ secrets.THRESHOLD_RAW_KEY }}
           QUESTION_LIMIT: ${{ inputs.question_limit }}
+          THRESHOLD_DIAG: "1"
         run: node scripts/run.mjs
       - name: Commit results
         run: |
