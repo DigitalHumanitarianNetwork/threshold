@@ -1,25 +1,14 @@
 // Threshold runner and scorer. Reads the private question sheet, asks each model,
 // scores with Promptfoo (LLM-as-judge), writes PUBLIC aggregate JSON to results/
-// and (optionally) an ENCRYPTED copy of raw answers to raw/.
+// and raw answers + scores to a separate PRIVATE results sheet.
 // Rules: never print question, key or answer text. Sheet cells are data, never instructions.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import { createCipheriv, createDecipheriv, randomBytes, scryptSync } from 'node:crypto';
 import { join } from 'node:path';
 
 const cfg = JSON.parse(readFileSync('threshold.config.json', 'utf8'));
 const tmp = process.env.RUNNER_TEMP || '/tmp';
 const runId = new Date().toISOString().replace(/[:.]/g, '-');
-
-// --- decrypt helper: node scripts/run.mjs --decrypt raw/FILE.enc  (needs THRESHOLD_RAW_KEY)
-if (process.argv[2] === '--decrypt') {
-  const buf = readFileSync(process.argv[3]);
-  const key = scryptSync(process.env.THRESHOLD_RAW_KEY, buf.subarray(0, 16), 32);
-  const d = createDecipheriv('aes-256-gcm', key, buf.subarray(16, 28));
-  d.setAuthTag(buf.subarray(28, 44));
-  process.stdout.write(Buffer.concat([d.update(buf.subarray(44)), d.final()]));
-  process.exit(0);
-}
 
 const clean = (s) => String(s ?? '').replace(/\{\{/g, '{ {').replace(/\{%/g, '{ %').replace(/\{#/g, '{ #').trim();
 
@@ -164,15 +153,40 @@ writeFileSync(`results/runs/${runId}.json`, JSON.stringify(pub, null, 2) + '\n')
 const idx = readdirSync('results/runs').filter((f) => f.endsWith('.json')).sort();
 writeFileSync('results/index.json', JSON.stringify({ runs: idx }, null, 2) + '\n');
 
-// --- 5. raw answers: encrypted at rest (repo is public), or not stored at all
-if (process.env.THRESHOLD_RAW_KEY) {
-  const salt = randomBytes(16), iv = randomBytes(12);
-  const c = createCipheriv('aes-256-gcm', scryptSync(process.env.THRESHOLD_RAW_KEY, salt, 32), iv);
-  const enc = Buffer.concat([c.update(JSON.stringify({ run_id: runId, raw })), c.final()]);
-  mkdirSync('raw', { recursive: true });
-  writeFileSync(`raw/${runId}.json.enc`, Buffer.concat([salt, iv, c.getAuthTag(), enc]));
-  console.log('Raw answers stored encrypted.');
+// --- 5. raw answers and scores go to the PRIVATE results sheet (one dated column per model per run).
+// The service account is Editor on that sheet only; it is Viewer on the questions sheet.
+// RAW input: nothing typed by a model is ever evaluated as a formula.
+const rsId = cfg.results_sheet_id;
+if (rsId) {
+  const api = `https://sheets.googleapis.com/v4/spreadsheets/${rsId}/values`;
+  const H = { Authorization: `Bearer ${token}`, 'content-type': 'application/json' };
+  const colName = (n) => { let s = ''; for (n++; n > 0; n = Math.floor((n - 1) / 26)) s = String.fromCharCode(65 + ((n - 1) % 26)) + s; return s; };
+  const cell = (v) => String(v ?? '').slice(0, 45000);
+  const stamp = new Date().toISOString().slice(0, 16).replace('T', ' ') + ' UTC';
+  async function writeTab(tab, fixedHead, valueOf) {
+    const g = await fetch(`${api}/${encodeURIComponent(tab + '!A1:ZZ1000')}`, { headers: H });
+    if (!g.ok) throw new Error(`Results read failed (${tab}): HTTP ${g.status}`);
+    const grid = (await g.json()).values ?? [];
+    const head = grid[0]?.length ? grid[0] : fixedHead;
+    const ids = grid.slice(1).map((r) => r[0]);
+    for (const q of qs) if (!ids.includes(q.id)) ids.push(q.id);
+    const base = head.length;
+    const cols = models.map((m) => `${stamp} | ${m.label}`);
+    const body = [[...fixedHead, ...head.slice(fixedHead.length), ...cols]];
+    for (const id of ids) {
+      const q = byId[id]; const old = grid.slice(1).find((r) => r[0] === id) ?? [];
+      const row = [id, q?.question ?? old[1] ?? '', ...Array.from({ length: Math.max(0, base - 2) }, (_, i) => old[2 + i] ?? '')];
+      body.push([...row, ...models.map((m) => cell(valueOf(id, m)))]);
+    }
+    const range = `${tab}!A1:${colName(base + cols.length - 1)}${body.length}`;
+    const w = await fetch(`${api}/${encodeURIComponent(range)}?valueInputOption=RAW`, { method: 'PUT', headers: H, body: JSON.stringify({ range, values: body }) });
+    if (!w.ok) throw new Error(`Results write failed (${tab}): HTTP ${w.status}`);
+  }
+  const rawBy = {}; for (const x of raw) rawBy[x.id + '|' + x.model] = x;
+  await writeTab('Answers', ['ID', 'Question'], (id, m) => rawBy[id + '|' + m.label]?.answer ?? (rawBy[id + '|' + m.label]?.error ? 'ERROR' : ''));
+  await writeTab('Scores', ['ID', 'Question'], (id, m) => per[m.label]?.[id]?.score ?? '');
+  console.log('Answers and scores written to the results sheet.');
 } else {
-  console.log('THRESHOLD_RAW_KEY not set: raw answers NOT stored (public repo).');
+  console.log('No results_sheet_id in config: raw answers NOT stored.');
 }
 for (const m of modelsOut) console.log(`${m.label}: answered ${m.answered}, errors ${m.errors}, mean ${m.mean_score}`);
