@@ -1,13 +1,23 @@
 {
   "results_sheet_id": "1pqwo8SVcbSY6K2ZVdPuMW8G6JrMwcyEfUV6KqFnHHbA",
   "sheet_range": "Questions!A1:K500",
-  "exclude_status": ["retired", "rejected"],
+  "exclude_status": [
+    "retired",
+    "rejected"
+  ],
   "pass_threshold": 0.7,
-  "judge": "google:gemini-3.8-flash",
+  "judge": "google:gemini-3.5-flash-lite",
   "models": [
-    { "id": "google:gemini-3.6-flash", "label": "Gemini 3.6 Flash", "key": "gemini" },
-    { "id": "google:gemini-3.5-flash-lite", "label": "Gemini 3.5 Flash-Lite", "key": "gemini" },
-    { "id": "openrouter:inclusionai/ling-3.2-flash:free", "label": "Ling 3.2 Flash (free, via OpenRouter)", "key": "openrouter" }
+    {
+      "id": "google:gemini-3.5-flash-lite",
+      "label": "Gemini 3.5 Flash-Lite",
+      "key": "gemini"
+    },
+    {
+      "id": "openrouter:inclusionai/ling-3.2-flash:free",
+      "label": "Ling 3.2 Flash (free, via OpenRouter)",
+      "key": "openrouter"
+    }
   ],
   "answer_instruction": "Answer the following question about humanitarian work. Be accurate and concise (under 250 words).",
   "delay_ms": 2000
