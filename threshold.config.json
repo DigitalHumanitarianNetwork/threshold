@@ -54,11 +54,29 @@
       "id": "openai:chat:meta/llama-3.3-70b-instruct",
       "label": "Llama 3.3 70B (NVIDIA build)",
       "key": "nvidia",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "openai:chat:google/gemma-4-31b-it",
       "label": "Gemma 4 31B (NVIDIA build)",
+      "key": "nvidia",
+      "enabled": false
+    },
+    {
+      "id": "openai:chat:mistralai/mistral-small-4-119b-2603",
+      "label": "Mistral Small 4 119B (NVIDIA build)",
+      "key": "nvidia",
+      "enabled": true
+    },
+    {
+      "id": "openai:chat:nvidia/llama-3.3-nemotron-super-49b-v1.5",
+      "label": "Nemotron Super 49B v1.5 (NVIDIA build)",
+      "key": "nvidia",
+      "enabled": true
+    },
+    {
+      "id": "openai:chat:deepseek-ai/deepseek-v4-flash",
+      "label": "DeepSeek V4 Flash (NVIDIA build)",
       "key": "nvidia",
       "enabled": true
     }
