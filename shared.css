@@ -22,3 +22,6 @@
   .home .wrap.tfoot-in{padding:72px 32px 52px;}
     .tfoot-in{padding-top:72px;}
 }
+
+/* Early Alpha status badge */
+.tmark .alpha-badge{display:inline-block;vertical-align:middle;margin-left:10px;padding:3px 7px;border:1px solid rgba(255,77,99,.65);border-radius:999px;background:rgba(255,77,99,.14);color:#ffd9de;font:600 11px/1.2 Arial,sans-serif;letter-spacing:.02em;text-transform:none;}
