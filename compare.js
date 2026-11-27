@@ -26,6 +26,18 @@ T.load().then(function(all){
     document.getElementById('qtitle').textContent=cap(curTopic);
     draw();
   }
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function today(){var d=new Date();return d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();}
+  function printInfo(ls){
+    document.getElementById('p-field').textContent=cap(curTopic);
+    document.getElementById('p-models').textContent=ls.length?ls.join(', '):'none selected';
+    document.getElementById('p-date').textContent=today();
+    document.getElementById('p-url').textContent=location.host+location.pathname;
+  }
+  var oldTitle=document.title;
+  window.addEventListener('beforeprint',function(){var ls=sel();printInfo(ls);document.title='Threshold - Compare models - '+cap(curTopic)+' - '+new Date().toISOString().slice(0,10);});
+  window.addEventListener('afterprint',function(){document.title=oldTitle;});
+  document.getElementById('btn-pdf').onclick=function(){window.print();};
   function boxes(){return Array.prototype.slice.call(box.querySelectorAll('input'));}
   function sel(){var s=boxes().filter(function(c){return c.checked;}).map(function(c){return c.value;});return order.map(function(o){return o.l;}).filter(function(l){return s.indexOf(l)>=0;});}
   function setAll(fn){boxes().forEach(function(c,i){c.checked=fn(i);});draw();}
@@ -35,6 +47,7 @@ T.load().then(function(all){
   tsel.onchange=function(){curTopic=tsel.value;wantParam=null;setup(false);};
   function draw(){
     var ls=sel(),idx=function(l){return L.labels.indexOf(l);};
+    printInfo(ls);
     cnt.textContent='Showing '+ls.length+' of '+L.labels.length+' models';
     var st=document.getElementById('stats');T.clear(st);
     if(!ls.length)st.appendChild(T.el('p',{'class':'lead'},'No models selected. Tick at least one model above.'));
