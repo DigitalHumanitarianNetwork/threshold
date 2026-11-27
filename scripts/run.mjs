@@ -103,6 +103,7 @@ async function pingRetry(id) { let s; for (let i = 0; i < 5; i++) { s = await pi
 for (const m of models) { const s = await pingRetry(m.id); console.log(`Preflight ${m.label}: ${s}`); if (s === 200) usable.push(m); }
 const js = await pingRetry(cfg.judge); console.log(`Preflight judge ${cfg.judge}: ${js}`);
 if (js !== 200 || !usable.length) { console.error('Preflight failed, stopping.'); process.exit(1); }
+{ let nv = 0; const keepM = usable.filter((m) => m.key !== 'nvidia' || ++nv <= 3); usable.length = 0; usable.push(...keepM); }
 models.length = 0; models.push(...usable);
 pf.providers = models.map(provCfg);
 const pfPath = join(tmp, 'pf-config.json');
