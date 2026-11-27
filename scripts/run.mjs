@@ -19,7 +19,10 @@ const clean = (s) => String(s ?? '').replace(/\{\{/g, '{ {').replace(/\{%/g, '{ 
 const sheetId = process.env.THRESHOLD_SHEET_ID;
 const token = process.env.SHEETS_TOKEN;
 if (!sheetId || !token) throw new Error('Missing THRESHOLD_SHEET_ID or SHEETS_TOKEN');
-const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(cfg.sheet_range)}`;
+const field = (process.env.FIELD || 'humanitarian').trim().toLowerCase();
+const sheetRange = field === 'humanitarian' ? cfg.sheet_range : `Questions - ${field}!A1:L500`;
+console.log(`Field: ${field}`);
+const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(sheetRange)}`;
 const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
 if (!res.ok) throw new Error(`Sheet read failed: HTTP ${res.status}`); // body not printed
 const rows = (await res.json()).values ?? [];
@@ -170,7 +173,7 @@ const modelsOut = models.map((mm) => {
   };
 });
 const pub = {
-  schema: 1, run_id: runId, generated_at: new Date().toISOString(), field: 'humanitarian',
+  schema: 1, run_id: runId, generated_at: new Date().toISOString(), field,
   question_count: qs.length, judge: cfg.judge, pass_threshold: cfg.pass_threshold, models: modelsOut,
   questions: qs.map((q) => ({ id: q.id, topic: q.topic, difficulty: q.difficulty,
     scores: Object.fromEntries(models.map((mm) => [mm.label, per[mm.label]?.[q.id]?.score ?? null])) })),
