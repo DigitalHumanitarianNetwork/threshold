@@ -13,8 +13,9 @@
 .tbyline strong{color:#fff;}
 .tbyline a{color:#c9c4d4;}
 .tmail{color:#c9c4d4;font-size:15px;}
-.tdhn{height:34px;display:block;}
+.tdhn{height:68px;width:auto;max-width:100%;display:block;}
 @media (max-width:820px){
   .tmark{font-size:19px;}
   .tnav a{margin-left:14px;font-size:13px;}
+  .tdhn{height:56px;}
 }
