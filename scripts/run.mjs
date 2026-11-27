@@ -41,7 +41,7 @@ if (!qs.length) throw new Error('No questions found');
 
 // --- 2. build the Promptfoo config in the runner temp dir (never committed)
 const models = cfg.models.filter((m) => m.enabled !== false).filter((m) => {
-  const k = m.key === 'gemini' ? process.env.GOOGLE_API_KEY : process.env.OPENROUTER_API_KEY;
+  const k = m.key === 'gemini' ? process.env.GOOGLE_API_KEY : m.key === 'cloudflare' ? (process.env.CLOUDFLARE_API_TOKEN && process.env.CLOUDFLARE_ACCOUNT_ID) : process.env.OPENROUTER_API_KEY;
   if (!k) console.log(`Skipping ${m.label}: no key`);
   return !!k;
 });
@@ -55,10 +55,16 @@ const rubric = [
   'If the answer says anything listed under must-not-say, or contradicts the reference on a main fact, the score is at most 0.2.',
   'Set pass to true only if the score is at least ' + cfg.pass_threshold + '.',
 ].join('\n');
+const cfBase = `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/v1`;
+function provCfg(m) {
+  const config = { temperature: 0 };
+  if (m.key === 'cloudflare') { config.apiBaseUrl = cfBase; config.apiKeyEnvar = 'CLOUDFLARE_API_TOKEN'; }
+  return { id: m.id, label: m.label, config };
+}
 const pf = {
   description: 'Threshold run ' + runId,
   prompts: [cfg.answer_instruction + '\n\nQuestion: {{question}}'],
-  providers: models.map((m) => ({ id: m.id, label: m.label, config: { temperature: 0 } })),
+  providers: models.map(provCfg),
   defaultTest: { options: { provider: cfg.judge }, assert: [{ type: 'llm-rubric', value: rubric, threshold: cfg.pass_threshold }] },
   tests: qs.map((q) => ({ vars: { id: q.id, question: q.question, ideal: q.ideal, keypoints: q.keypoints, mustnot: q.mustnot } })),
   evaluateOptions: { maxConcurrency: 1, delay: cfg.delay_ms, cache: false },
@@ -74,6 +80,10 @@ async function ping(id) {
       r = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`, { method: 'POST', signal: ctl,
         headers: { 'content-type': 'application/json', 'x-goog-api-key': process.env.GOOGLE_API_KEY },
         body: JSON.stringify({ contents: [{ parts: [{ text: 'Reply with the word ok.' }] }] }) });
+    } else if (prov === 'openai') {
+      r = await fetch(cfBase + '/chat/completions', { method: 'POST', signal: ctl,
+        headers: { 'content-type': 'application/json', authorization: 'Bearer ' + process.env.CLOUDFLARE_API_TOKEN },
+        body: JSON.stringify({ model: model.replace(/^chat:/, ''), messages: [{ role: 'user', content: 'Reply with the word ok.' }], max_tokens: 50 }) });
     } else {
       r = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', signal: ctl,
         headers: { 'content-type': 'application/json', authorization: 'Bearer ' + process.env.OPENROUTER_API_KEY },
@@ -90,7 +100,7 @@ for (const m of models) { const s = await pingRetry(m.id); console.log(`Prefligh
 const js = await pingRetry(cfg.judge); console.log(`Preflight judge ${cfg.judge}: ${js}`);
 if (js !== 200 || !usable.length) { console.error('Preflight failed, stopping.'); process.exit(1); }
 models.length = 0; models.push(...usable);
-pf.providers = models.map((m) => ({ id: m.id, label: m.label, config: { temperature: 0 } }));
+pf.providers = models.map(provCfg);
 const pfPath = join(tmp, 'pf-config.json');
 const outPath = join(tmp, 'pf-out.json');
 writeFileSync(pfPath, JSON.stringify(pf));
