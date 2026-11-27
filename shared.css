@@ -19,5 +19,6 @@
   .tnav a{margin-left:14px;font-size:13px;}
   .tdhn{height:84px;}
     .wrap.tfoot-in{padding:72px 32px 52px;}
+  .home .wrap.tfoot-in{padding:72px 32px 52px;}
     .tfoot-in{padding-top:72px;}
 }
