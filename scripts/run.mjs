@@ -160,11 +160,14 @@ const pub = {
     scores: Object.fromEntries(models.map((mm) => [mm.label, per[mm.label]?.[q.id]?.score ?? null])) })),
   note: 'Aggregate scores only. Question text, ideal answers and raw answers are private.',
 };
+if (limit > 0) console.log('Test run (question limit ' + limit + '): public results/ not written.');
+else {
 mkdirSync('results/runs', { recursive: true });
 writeFileSync('results/latest.json', JSON.stringify(pub, null, 2) + '\n');
 writeFileSync(`results/runs/${runId}.json`, JSON.stringify(pub, null, 2) + '\n');
 const idx = readdirSync('results/runs').filter((f) => f.endsWith('.json')).sort();
 writeFileSync('results/index.json', JSON.stringify({ runs: idx }, null, 2) + '\n');
+}
 
 // --- 5. raw answers and scores go to the PRIVATE results sheet (one dated column per model per run).
 // The service account is Editor on that sheet only; it is Viewer on the questions sheet.
