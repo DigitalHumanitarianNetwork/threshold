@@ -6,6 +6,8 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 
 import { spawnSync } from 'node:child_process';
 import { rmSync } from 'node:fs';
 import { join } from 'node:path';
+const _fetch = globalThis.fetch;
+globalThis.fetch = async (u, o) => { let e; for (let i = 0; i < 4; i++) { try { return await _fetch(u, o); } catch (er) { e = er; await new Promise((r) => setTimeout(r, 3000 * (i + 1))); } } throw e; };
 
 const cfg = JSON.parse(readFileSync('threshold.config.json', 'utf8'));
 const tmp = process.env.RUNNER_TEMP || '/tmp';
@@ -132,6 +134,7 @@ for (let pass = 0; pass < 3 && pending.length; pass++) {
   }
   console.log('Eval pass ' + (pass + 1) + ': ' + badIds.size + ' question(s) with errors');
   pending = allTests.filter((t) => badIds.has(t.vars.id));
+  if (pending.length) await new Promise((r) => setTimeout(r, 60000));
 }
 const results = [...keep.values()].map((v) => v.x);
 
@@ -144,7 +147,7 @@ for (const x of results) {
   const id = x.vars?.id ?? x.testCase?.vars?.id;
   const m = label(x.provider);
   const err = !!x.error || !x.response?.output;
-  if (x.error) console.log('Item error', id, m, String(x.error).split(/\s+/).filter((w) => /^(\d{3}|rate|quota|limit|timeout|timed|parse|JSON|safety|blocked|empty|invalid|exceeded|unavailable|overloaded)/i.test(w)).slice(0, 8).join(' '));
+  if (x.error) console.log('Item error', id, m, (/^(Error: )?(API call error|.{0,40}\b[45]\d\d\b)/i.test(String(x.error)) ? String(x.error).replace(/\s+/g, ' ').slice(0, 120) : 'non-API error, len ' + String(x.error).length));
   const score = err ? null : (x.gradingResult?.score ?? x.score ?? null);
   (per[m] ??= {})[id] = { score, pass: err ? null : !!x.gradingResult?.pass, error: err };
   raw.push({ id, model: m, answer: x.response?.output ?? null, error: x.error ?? null, score, judge_reason: x.gradingResult?.reason ?? null, latency_ms: x.latencyMs ?? null });
