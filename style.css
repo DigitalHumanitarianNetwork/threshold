@@ -82,7 +82,7 @@
     .screenonly{display:none!important}.printonly{display:block!important}
     .bar{grid-template-columns:170px 1fr 48px!important;font-size:12.5px}.bar svg{grid-column:auto!important;grid-row:auto!important}.bar .v{grid-column:auto!important;grid-row:auto!important}
     .tablewrap{overflow:visible!important}table{table-layout:fixed;font-size:11px}th{font-size:9.5px;letter-spacing:0;word-wrap:break-word}.chip{min-width:0;padding:1px 4px}
-    .tbar,.hero,.topicbar,.mtools,.checks,#intro,.tfoot{display:none!important}
+    .tbar,.hero,.topicbar,.filters,.mtools,.checks,#intro,.tfoot{display:none!important}
     section{padding:14px 0!important}section.alt{background:#fff!important}
     h2{font-size:20px}
     .printhead,.printfoot{display:block}
@@ -102,6 +102,7 @@
     .grp,tr,.stat{break-inside:avoid}
     table{font-size:12px}th,td{padding:5px 8px}
     a{color:inherit}
+    #board .bar{grid-template-columns:1fr 44px!important;gap:6px}#board .bar span:first-child{display:none}#board .bar svg{min-width:90px}
     .printfoot{margin-top:14px;padding-top:8px;border-top:1px solid var(--line);font-size:12px;color:#555550}
     .printfoot p{margin:3px 0}
   }
