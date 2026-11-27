@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New field | Threshold Evaluations</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="https://brand.digitalhumanitarians.com/favicon.ico" sizes="any">
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="tbar">
+  <div class="wrap tbar-in">
+    <a class="tmark" href="index.html">Threshold <span>Evaluations</span> <span class="alpha-badge">alpha</span></a>
+    <nav class="tnav" aria-label="Site">
+      <a href="results.html">Results</a>
+      <a href="compare.html">Compare</a>
+      <a href="sectors.html">Sectors</a>
+      <a href="mailto:threshold@digitalhumanitarians.com">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div class="abanner">
+  <div class="wrap"><strong>Private area.</strong> The questions and ideal answers here are sent to AI providers for testing on free tiers. Never put sensitive or personal information in a question set.</div>
+</div>
+
+<div class="who-bar">
+  <div class="wrap">
+    <div class="who-name" id="who-name">Checking sign-in&hellip;</div>
+    <a class="signout" id="signout" href="login.html">Sign out</a>
+  </div>
+</div>
+
+<section class="asect">
+  <div class="wrap" style="max-width:860px;">
+    <div class="kicker">Editors and admins</div>
+    <h1 class="ah1">Create a new field</h1>
+    <p class="alead">A field is a topic you want to test models on, like Humanitarian, Education or Logistics. It gets its own question set with ideal answers, and its own pass line.</p>
+
+    <div class="acard" style="margin-bottom:26px;">
+      <div class="frow">
+        <div class="fgroup">
+          <label class="flabel" for="fname">Field name</label>
+          <input type="text" id="fname" placeholder="For example: Shelter and settlements">
+        </div>
+        <div class="fgroup">
+          <label class="flabel" for="fid">Field ID</label>
+          <input type="text" id="fid" placeholder="shelter">
+          <div class="fhint">Lowercase letters, numbers and dashes. Used in links and file names.</div>
+        </div>
+      </div>
+      <div class="fgroup">
+        <label class="flabel" for="fdesc">Short description (optional)</label>
+        <input type="text" id="fdesc" placeholder="What this field covers, in one line">
+      </div>
+      <div class="fgroup" style="margin-bottom:0;max-width:220px;">
+        <label class="flabel" for="fthr">Overall pass line for the field</label>
+        <input type="number" id="fthr" value="0.70" min="0" max="1" step="0.05">
+        <div class="fhint">A model passes the field when its mean score reaches this line. Default 0.70.</div>
+      </div>
+    </div>
+
+    <h2 class="ah2">Questions</h2>
+    <p class="alead">Write each question with its ideal answer. The judge scores a model's answer against your ideal answer.</p>
+
+    <div id="qlist"></div>
+
+    <button class="addq" type="button" id="addq"><span class="plus">+</span> Add another question</button>
+
+    <div class="warnbox" style="margin:26px 0 18px;">
+      <b>Saved to the private sheet only.</b>
+      This field and its questions are written to the private questions sheet. Nothing goes into the public code repository, and scores appear on the public site only when someone chooses to publish them.
+    </div>
+
+    <div class="abtnrow">
+      <button class="abtn primary" id="savebtn" type="button" style="font-size:17px;padding:14px 34px;">Save field</button>
+      <a class="abtn ghost" href="admin.html">Cancel</a>
+    </div>
+    <p id="save-msg" style="font-size:15px;margin-top:14px;"></p>
+  </div>
+</section>
+
+<footer class="tfoot">
+  <div class="wrap tfoot-in">
+    <div class="tbyline"><strong>Threshold Evaluations</strong> by <a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></div>
+    <a class="tmail" href="mailto:threshold@digitalhumanitarians.com">threshold@digitalhumanitarians.com</a>
+    <a href="https://digitalhumanitarians.com/" aria-label="Digital Humanitarian Network"><img class="tdhn" src="https://brand.digitalhumanitarians.com/DHN_LOGO_WHITE.png" alt="Digital Humanitarian Network"></a>
+  </div>
+</footer>
+
+<script src="admin.js"></script>
+<script>
+thrGuard(['admin', 'editor']).catch(function (e) { if (e.message !== 'redirect' && e.message !== 'pending') console.error(e); });
+
+var qn = 0;
+function addQuestion() {
+  qn++;
+  var c = document.createElement('div');
+  c.className = 'qcard';
+  c.innerHTML =
+    '<div class="qhead"><span class="qnum">Question ' + qn + '</span>' + (qn > 1 ? '<a href="#" style="margin-left:auto;font-size:14px;" data-remove>Remove</a>' : '') + '</div>' +
+    '<div class="fgroup"><label class="flabel">Question</label><textarea data-f="question" placeholder="The exact question a model will be asked"></textarea></div>' +
+    '<div class="fgroup"><label class="flabel">Ideal answer</label><textarea data-f="ideal" placeholder="What a fully correct answer says. The judge compares the model\'s answer against this."></textarea>' +
+    '<div class="fhint">Never published. Visible only to signed-in editors and admins, and sent to the AI providers during a run.</div></div>' +
+    '<div class="fgroup"><label class="flabel">Key points (optional)</label><textarea data-f="keypoints" style="min-height:64px" placeholder="One per line. The score is the share of key points the answer covers."></textarea></div>' +
+    '<div class="frow">' +
+      '<div class="fgroup" style="margin-bottom:0;"><label class="flabel">Topic (optional)</label><input type="text" data-f="topic" placeholder="For example: Coordination"></div>' +
+      '<div class="fgroup" style="margin-bottom:0;"><label class="flabel">Pass line for this question</label><input type="number" class="qthr" data-f="threshold" value="0.70" min="0" max="1" step="0.05"></div>' +
+    '</div>';
+  var rm = c.querySelector('[data-remove]');
+  if (rm) rm.onclick = function (e) { e.preventDefault(); c.remove(); };
+  document.getElementById('qlist').appendChild(c);
+}
+addQuestion();
+document.getElementById('addq').onclick = function () { addQuestion(); };
+
+document.getElementById('fname').addEventListener('input', function () {
+  var fid = document.getElementById('fid');
+  if (!fid.dataset.touched) fid.value = this.value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40);
+});
+document.getElementById('fid').addEventListener('input', function () { this.dataset.touched = '1'; });
+
+function msg(t, isErr) { thrMsg(document.getElementById('save-msg'), t, isErr); }
+
+document.getElementById('savebtn').onclick = function () {
+  var btn = this;
+  var field = {
+    id: document.getElementById('fid').value.trim(),
+    name: document.getElementById('fname').value.trim(),
+    description: document.getElementById('fdesc').value.trim(),
+    threshold: document.getElementById('fthr').value,
+  };
+  var questions = [];
+  document.querySelectorAll('#qlist .qcard').forEach(function (c) {
+    var q = {};
+    c.querySelectorAll('[data-f]').forEach(function (el) { q[el.getAttribute('data-f')] = el.value.trim(); });
+    if (q.question) questions.push(q);
+  });
+  if (!field.name) { msg('Give the field a name.', true); return; }
+  if (!/^[a-z0-9][a-z0-9-]{1,39}$/.test(field.id)) { msg('The field ID needs lowercase letters, numbers or dashes (at least 2 characters).', true); return; }
+  if (!questions.length) { msg('Write at least one question.', true); return; }
+  var missingIdeal = questions.some(function (q) { return !q.ideal; });
+  if (missingIdeal) { msg('Every question needs an ideal answer, the judge scores against it.', true); return; }
+  btn.disabled = true;
+  msg('Saving&hellip;', false);
+  thrApi('createField', { field: field, questions: questions }).then(function (r) {
+    btn.disabled = false;
+    if (r.error === 'field_exists') msg('A field with this ID already exists. Pick another ID.', true);
+    else if (r.error) msg('Could not save: ' + r.error, true);
+    else { msg('Saved. ' + r.questions + ' question(s) are in the private sheet.', false); setTimeout(function () { location.href = 'admin.html'; }, 1200); }
+  }).catch(function () { btn.disabled = false; msg('Could not reach the server. Try again.', true); });
+};
+</script>
+
+</body>
+</html>
