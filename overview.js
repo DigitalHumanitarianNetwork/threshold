@@ -1,9 +1,18 @@
 (function(){
-T.load().then(function(runs){
-  var L=T.latest(runs),last=runs[runs.length-1];
+function cap(s){return s?s.charAt(0).toUpperCase()+s.slice(1):s;}
+T.load().then(function(all){
+  var fields=[];all.forEach(function(r){var f=r.field||'general';if(fields.indexOf(f)<0)fields.push(f);});fields.sort();
+  var fsel=document.getElementById('fieldsel'),cur=T.param('t');if(fields.indexOf(cur)<0)cur=fields[0];
+  fields.forEach(function(f){var o=T.el('option',{value:f},cap(f));if(f===cur)o.selected=true;fsel.appendChild(o);});
   var ft=document.getElementById('ftopic'),fd=document.getElementById('fdiff');
+  var runs,L,last;
+  function setup(){
+  runs=all.filter(function(r){return (r.field||'general')===cur;});L=T.latest(runs);last=runs[runs.length-1];
   T.opts(ft,T.uniq(runs,'topic'),'All topics');T.opts(fd,T.uniq(runs,'difficulty'),'All difficulties');
-  document.getElementById('intro').textContent=L.labels.length+' model'+(L.labels.length===1?'':'s')+' tested across '+runs.length+' saved run'+(runs.length===1?'':'s')+'. Latest run: '+T.when(last)+' UTC. Judge: '+last.judge+'.';
+  document.getElementById('intro').textContent=cap(cur)+': '+L.labels.length+' model'+(L.labels.length===1?'':'s')+' tested across '+runs.length+' saved run'+(runs.length===1?'':'s')+'. Latest run: '+T.when(last)+' UTC. Judge: '+last.judge+'.';
+  var h=document.getElementById('history');T.clear(h);var hr0=T.el('tr');['Run (UTC)','Model','Scored','Mean','Passed'].forEach(function(x){hr0.appendChild(T.el('th',null,x));});h.appendChild(hr0);
+  runs.slice().reverse().forEach(function(d){d.models.forEach(function(m){var r=T.el('tr');r.appendChild(T.el('td',null,T.when(d)));var c=T.el('td');c.appendChild(T.mlink(m.label));r.appendChild(c);r.appendChild(T.el('td',null,m.answered+' of '+d.question_count));r.appendChild(T.el('td',null,T.fmt(m.mean_score)));r.appendChild(T.el('td',null,m.pass_rate==null?'n/a':Math.round(m.pass_rate*100)+'%'));h.appendChild(r);});});
+  draw();}
   function draw(){
     var tp=ft.value,df=fd.value;
     var b=document.getElementById('board');T.clear(b);var hr=T.el('tr');['Model','Mean score','Scored','Passed','Run'].forEach(function(x){hr.appendChild(T.el('th',null,x));});b.appendChild(hr);
@@ -18,8 +27,6 @@ T.load().then(function(runs){
       var tr=T.el('tr');tr.appendChild(T.el('td',null,q.id));tr.appendChild(T.el('td',null,q.topic));tr.appendChild(T.el('td',null,q.difficulty));
       L.labels.forEach(function(l){var run=L.by[l].run,qq=run.questions.filter(function(x){return x.id===id;})[0];var s=qq&&qq.scores?qq.scores[l]:null;var td=T.el('td');if(s==null)td.appendChild(T.el('span',{'class':'nos'},'no score'));else td.appendChild(T.chip(s));tr.appendChild(td);});t.appendChild(tr);});
   }
-  ft.onchange=draw;fd.onchange=draw;draw();
-  var h=document.getElementById('history');var hr=T.el('tr');['Run (UTC)','Model','Scored','Mean','Passed'].forEach(function(x){hr.appendChild(T.el('th',null,x));});h.appendChild(hr);
-  runs.slice().reverse().forEach(function(d){d.models.forEach(function(m){var r=T.el('tr');r.appendChild(T.el('td',null,T.when(d)));var c=T.el('td');c.appendChild(T.mlink(m.label));r.appendChild(c);r.appendChild(T.el('td',null,m.answered+' of '+d.question_count));r.appendChild(T.el('td',null,T.fmt(m.mean_score)));r.appendChild(T.el('td',null,m.pass_rate==null?'n/a':Math.round(m.pass_rate*100)+'%'));h.appendChild(r);});});
+  ft.onchange=draw;fd.onchange=draw;fsel.onchange=function(){cur=fsel.value;setup();};setup();
 }).catch(T.fail);
 })();
