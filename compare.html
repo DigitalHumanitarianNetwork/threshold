@@ -28,12 +28,19 @@
     <p>Pick two or more models and see them side by side.</p>
   </div>
 </div>
+<div class="printhead"><div class="wrap">
+  <div class="ph-brand">Threshold Evaluations <span>by Digital Humanitarian Network</span></div>
+  <h1>Compare models</h1>
+  <p class="ph-meta"><b>Field:</b> <span id="p-field"></span></p>
+  <p class="ph-meta"><b>Models shown:</b> <span id="p-models"></span></p>
+  <p class="ph-meta"><b>Date:</b> <span id="p-date"></span></p>
+</div></div>
 <div class="caveat"><div class="wrap"><strong>Pilot, not a ranking.</strong> These are early results from 9 draft questions. The scoring judge is also an AI model and no person has yet checked its scores against hand-scored answers.</div></div>
 
 <section>
   <div class="wrap">
-    <div class="topicbar"><label for="topicsel"><b>Field</b></label><select id="topicsel"></select></div>
-    <h2>Choose models</h2>
+    <div class="topicbar"><label for="topicsel"><b>Field</b></label><select id="topicsel"></select><button type="button" id="btn-pdf" class="pdfbtn">Save as PDF</button></div>
+    <h2 class="screenonly">Choose models</h2><h2 class="printonly">Mean score by model</h2>
     <p class="lead" id="intro">Loading results.</p>
     <div class="mtools"><span id="count" class="mcount"></span><span id="tools"><button type="button" id="btn-recent">Show 5 most recent</button><button type="button" id="btn-all">Show all</button><button type="button" id="btn-none">Clear</button></span></div>
     <div class="checks" id="checks"></div>
@@ -53,6 +60,10 @@
     <div class="tablewrap"><table id="qtable"></table></div>
   </div>
 </section>
+<div class="printfoot"><div class="wrap">
+  <p><b>Pilot, not a ranking.</b> Scores come from an AI judge that has not yet been checked against hand-scored answers. Models are shown with their most recent run. Results will change as more questions and models are added.</p>
+  <p>Source: <span id="p-url"></span> &middot; Threshold Evaluations by digitalhumanitarians.com &middot; threshold@digitalhumanitarians.com</p>
+</div></div>
 <footer class="tfoot">
   <div class="wrap tfoot-in">
     <div class="tbyline"><strong>Threshold Evaluations</strong> by <a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></div>
