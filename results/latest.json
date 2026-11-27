@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "run_id": "2026-11-27T06-13-19-454Z",
-  "generated_at": "2026-11-27T06:15:39.015Z",
+  "run_id": "2026-11-27T12-08-09-806Z",
+  "generated_at": "2026-11-27T12:26:26.776Z",
   "field": "humanitarian",
   "question_count": 9,
   "judge": "google:gemini-3.5-flash-lite",
@@ -10,9 +10,9 @@
     {
       "id": "openrouter:nvidia/nemotron-3.5-lightning:free",
       "label": "Nemotron 3.5 Lightning (free, OpenRouter)",
-      "answered": 8,
-      "errors": 1,
-      "mean_score": 0.94,
+      "answered": 7,
+      "errors": 2,
+      "mean_score": 0.97,
       "pass_rate": 1,
       "by_topic": {
         "Principles": {
@@ -20,7 +20,87 @@
           "n": 2
         },
         "Coordination": {
-          "mean": 0.78,
+          "mean": 0.9,
+          "n": 2
+        },
+        "Standards": {
+          "mean": 1,
+          "n": 2
+        },
+        "Law": {
+          "mean": 1,
+          "n": 1
+        }
+      },
+      "by_difficulty": {
+        "Easy": {
+          "mean": 1,
+          "n": 1
+        },
+        "Medium": {
+          "mean": 1,
+          "n": 4
+        },
+        "Hard": {
+          "mean": 0.9,
+          "n": 2
+        }
+      }
+    },
+    {
+      "id": "openai:chat:@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "label": "Llama 3.3 70B (Cloudflare Workers AI)",
+      "answered": 5,
+      "errors": 4,
+      "mean_score": 0.95,
+      "pass_rate": 1,
+      "by_topic": {
+        "Principles": {
+          "mean": 1,
+          "n": 2
+        },
+        "Coordination": {
+          "mean": 0.75,
+          "n": 1
+        },
+        "Standards": {
+          "mean": 1,
+          "n": 1
+        },
+        "Law": {
+          "mean": 1,
+          "n": 1
+        }
+      },
+      "by_difficulty": {
+        "Easy": {
+          "mean": 1,
+          "n": 1
+        },
+        "Medium": {
+          "mean": 0.92,
+          "n": 3
+        },
+        "Hard": {
+          "mean": 1,
+          "n": 1
+        }
+      }
+    },
+    {
+      "id": "openai:chat:@cf/openai/gpt-oss-120b",
+      "label": "gpt-oss-120b (Cloudflare Workers AI)",
+      "answered": 8,
+      "errors": 1,
+      "mean_score": 1,
+      "pass_rate": 1,
+      "by_topic": {
+        "Principles": {
+          "mean": 1,
+          "n": 2
+        },
+        "Coordination": {
+          "mean": 1,
           "n": 2
         },
         "Funding and data": {
@@ -42,11 +122,55 @@
           "n": 1
         },
         "Medium": {
-          "mean": 0.95,
+          "mean": 1,
           "n": 5
         },
         "Hard": {
-          "mean": 0.9,
+          "mean": 1,
+          "n": 2
+        }
+      }
+    },
+    {
+      "id": "openai:chat:nvidia/nemotron-3-ultra-550b-a55b",
+      "label": "Nemotron 3 Ultra 550B (NVIDIA build)",
+      "answered": 9,
+      "errors": 0,
+      "mean_score": 1,
+      "pass_rate": 1,
+      "by_topic": {
+        "Principles": {
+          "mean": 1,
+          "n": 2
+        },
+        "Coordination": {
+          "mean": 1,
+          "n": 2
+        },
+        "Funding and data": {
+          "mean": 1,
+          "n": 2
+        },
+        "Standards": {
+          "mean": 1,
+          "n": 2
+        },
+        "Law": {
+          "mean": 1,
+          "n": 1
+        }
+      },
+      "by_difficulty": {
+        "Easy": {
+          "mean": 1,
+          "n": 1
+        },
+        "Medium": {
+          "mean": 1,
+          "n": 6
+        },
+        "Hard": {
+          "mean": 1,
           "n": 2
         }
       }
@@ -58,7 +182,10 @@
       "topic": "Principles",
       "difficulty": "Easy",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1,
+        "Llama 3.3 70B (Cloudflare Workers AI)": 1,
+        "gpt-oss-120b (Cloudflare Workers AI)": 1,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     },
     {
@@ -66,7 +193,10 @@
       "topic": "Coordination",
       "difficulty": "Medium",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": 0.75
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1,
+        "Llama 3.3 70B (Cloudflare Workers AI)": 0.75,
+        "gpt-oss-120b (Cloudflare Workers AI)": 1,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     },
     {
@@ -74,7 +204,10 @@
       "topic": "Funding and data",
       "difficulty": "Medium",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": null
+        "Nemotron 3.5 Lightning (free, OpenRouter)": null,
+        "Llama 3.3 70B (Cloudflare Workers AI)": null,
+        "gpt-oss-120b (Cloudflare Workers AI)": null,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     },
     {
@@ -82,7 +215,10 @@
       "topic": "Funding and data",
       "difficulty": "Medium",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+        "Nemotron 3.5 Lightning (free, OpenRouter)": null,
+        "Llama 3.3 70B (Cloudflare Workers AI)": null,
+        "gpt-oss-120b (Cloudflare Workers AI)": 1,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     },
     {
@@ -90,7 +226,10 @@
       "topic": "Standards",
       "difficulty": "Medium",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1,
+        "Llama 3.3 70B (Cloudflare Workers AI)": null,
+        "gpt-oss-120b (Cloudflare Workers AI)": 1,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     },
     {
@@ -98,7 +237,10 @@
       "topic": "Standards",
       "difficulty": "Medium",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1,
+        "Llama 3.3 70B (Cloudflare Workers AI)": 1,
+        "gpt-oss-120b (Cloudflare Workers AI)": 1,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     },
     {
@@ -106,7 +248,10 @@
       "topic": "Law",
       "difficulty": "Medium",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1,
+        "Llama 3.3 70B (Cloudflare Workers AI)": 1,
+        "gpt-oss-120b (Cloudflare Workers AI)": 1,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     },
     {
@@ -114,7 +259,10 @@
       "topic": "Coordination",
       "difficulty": "Hard",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": 0.8
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 0.8,
+        "Llama 3.3 70B (Cloudflare Workers AI)": null,
+        "gpt-oss-120b (Cloudflare Workers AI)": 1,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     },
     {
@@ -122,7 +270,10 @@
       "topic": "Principles",
       "difficulty": "Hard",
       "scores": {
-        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1,
+        "Llama 3.3 70B (Cloudflare Workers AI)": 1,
+        "gpt-oss-120b (Cloudflare Workers AI)": 1,
+        "Nemotron 3 Ultra 550B (NVIDIA build)": 1
       }
     }
   ],
