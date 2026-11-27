@@ -8,14 +8,14 @@
 .tnav a:hover{background:none;text-decoration:none;}
 .tnav a:hover{opacity:1;color:#ffd9de;}
 .tfoot{background:#17151c;color:#c9c4d4;}
-.tfoot-in{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;padding:44px 0 52px;}
+.tfoot-in{display:flex;justify-content:space-between;align-items:center;gap:28px 40px;flex-wrap:wrap;padding:44px 0 52px;}
 .tbyline{font-size:15px;}
 .tbyline strong{color:#fff;}
 .tbyline a{color:#c9c4d4;}
 .tmail{color:#c9c4d4;font-size:15px;}
-.tdhn{height:68px;width:auto;max-width:100%;display:block;}
+.tdhn{height:96px;width:auto;max-width:100%;display:block;}
 @media (max-width:820px){
   .tmark{font-size:19px;}
   .tnav a{margin-left:14px;font-size:13px;}
-  .tdhn{height:56px;}
+  .tdhn{height:84px;}
 }
