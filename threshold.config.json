@@ -12,7 +12,7 @@
       "id": "google:gemini-3.5-flash-lite",
       "label": "Gemini 3.5 Flash-Lite",
       "key": "gemini",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "openrouter:google/gemma-4-31b-it:free",
@@ -36,6 +36,18 @@
       "id": "openrouter:nvidia/nemotron-3.5-lightning:free",
       "label": "Nemotron 3.5 Lightning (free, OpenRouter)",
       "key": "openrouter",
+      "enabled": false
+    },
+    {
+      "id": "openai:chat:@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "label": "Llama 3.3 70B (Cloudflare Workers AI)",
+      "key": "cloudflare",
+      "enabled": true
+    },
+    {
+      "id": "openai:chat:@cf/openai/gpt-oss-120b",
+      "label": "gpt-oss-120b (Cloudflare Workers AI)",
+      "key": "cloudflare",
       "enabled": true
     }
   ],
