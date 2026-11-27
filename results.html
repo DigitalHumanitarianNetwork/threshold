@@ -28,13 +28,21 @@
     <p>The minimum standard AI models should meet before they are trusted with humanitarian work.</p>
   </div>
 </div>
+<div class="printhead"><div class="wrap">
+  <div class="ph-brand">Threshold Evaluations <span>by Digital Humanitarian Network</span></div>
+  <h1>Results</h1>
+  <p class="ph-meta"><b>Field:</b> <span id="p-field"></span></p>
+  <p class="ph-meta"><b>Topic:</b> <span id="p-topic"></span></p>
+  <p class="ph-meta"><b>Difficulty:</b> <span id="p-diff"></span></p>
+  <p class="ph-meta"><b>Date:</b> <span id="p-date"></span></p>
+</div></div>
 <div class="caveat"><div class="wrap"><strong>Pilot, not a ranking.</strong> These are early results from 9 draft questions. The scoring judge is also an AI model and no person has yet checked its scores against hand-scored answers.</div></div>
 
 <section>
   <div class="wrap">
     <h2>Models</h2>
     <p class="lead" id="intro">Loading results.</p>
-    <div class="topicbar" id="fieldbar"><label for="fieldsel"><b>Field</b></label><select id="fieldsel"></select></div>
+    <div class="topicbar" id="fieldbar"><label for="fieldsel"><b>Field</b></label><select id="fieldsel"></select><button type="button" id="btn-pdf" class="pdfbtn" aria-label="Print / PDF" title="Print / PDF">Print / PDF</button></div>
     <div class="filters">
       <div><label for="ftopic">Topic</label><select id="ftopic"></select></div>
       <div><label for="fdiff">Difficulty</label><select id="fdiff"></select></div>
@@ -48,7 +56,7 @@
 <section class="alt">
   <div class="wrap">
     <h2>Question by question</h2>
-    <p class="lead">Questions are shown by ID and topic only. The question text and reference answers are not published. The filters above apply here too.</p>
+    <p class="lead screenonly">Questions are shown by ID and topic only. The question text and reference answers are not published. The filters above apply here too.</p>
     <div class="tablewrap"><table id="qtable"></table></div>
   </div>
 </section>
@@ -72,6 +80,10 @@
     <p class="lead" style="margin-top:24px">Questions or ideas? Contact <a href="mailto:threshold@digitalhumanitarians.com">threshold@digitalhumanitarians.com</a>.</p>
   </div>
 </section>
+<div class="printfoot"><div class="wrap">
+  <p><b>Pilot, not a ranking.</b> Scores come from an AI judge that has not yet been checked against hand-scored answers. Each model is shown with its most recent run. Results will change as more questions and models are added.</p>
+  <p>Source: <span id="p-url"></span> &middot; Threshold Evaluations by digitalhumanitarians.com &middot; threshold@digitalhumanitarians.com</p>
+</div></div>
 <footer class="tfoot">
   <div class="wrap tfoot-in">
     <div class="tbyline"><strong>Threshold Evaluations</strong> by <a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></div>
