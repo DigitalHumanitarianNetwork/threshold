@@ -65,3 +65,10 @@
   .grp>b{display:block;margin-bottom:4px;color:var(--gray)}
   .line{width:100%;max-width:640px;height:auto;background:#fff;border:1px solid var(--line);border-radius:10px}
   .mlink{font-weight:700}
+  .topicbar{display:flex;align-items:center;gap:12px;margin:0 0 22px;flex-wrap:wrap}
+  .mtools{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:4px 0}
+  .mcount{font-size:14.5px;color:#555550}
+  .mtools button{font:inherit;font-size:14px;padding:6px 12px;margin-left:8px;border:1px solid #bdbdb8;border-radius:6px;background:#fff;color:var(--ink);cursor:pointer}
+  .mtools button:hover{border-color:var(--teal)}
+  .qt{font-size:.6em;color:#555550;font-weight:400;margin-left:6px}
+  .checks{max-height:260px;overflow-y:auto}
