@@ -32,8 +32,10 @@
 
 <section>
   <div class="wrap">
+    <div class="topicbar"><label for="topicsel"><b>Field</b></label><select id="topicsel"></select></div>
     <h2>Choose models</h2>
     <p class="lead" id="intro">Loading results.</p>
+    <div class="mtools"><span id="count" class="mcount"></span><span id="tools"><button type="button" id="btn-recent">Show 5 most recent</button><button type="button" id="btn-all">Show all</button><button type="button" id="btn-none">Clear</button></span></div>
     <div class="checks" id="checks"></div>
     <div class="stats" id="stats"></div>
   </div>
@@ -46,7 +48,7 @@
 </section>
 <section>
   <div class="wrap">
-    <h2>Question by question</h2>
+    <h2>Question by question <span id="qtitle" class="qt"></span></h2>
     <p class="lead">IDs and topics only. Each model shows its most recent run.</p>
     <div class="tablewrap"><table id="qtable"></table></div>
   </div>
