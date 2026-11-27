@@ -93,7 +93,7 @@ async function ping(id) {
         headers: { 'content-type': 'application/json', authorization: 'Bearer ' + process.env.OPENROUTER_API_KEY },
         body: JSON.stringify({ model, messages: [{ role: 'user', content: 'Reply with the word ok.' }], max_tokens: 20 }) });
     }
-    if (r.status !== 200) { const t = await r.text(); let msg = ''; try { const j = JSON.parse(t); msg = j.error?.message || j.error?.status || ''; if (typeof msg !== 'string') msg = JSON.stringify(msg); } catch {} console.log('  detail:', msg.replace(/\s+/g, ' ').slice(0, 200)); }
+    if (r.status !== 200) { const t = await r.text(); let msg = ''; try { const j = JSON.parse(t); msg = j.error?.message || j.error?.status || ''; if (typeof msg !== 'string') msg = JSON.stringify(msg); } catch {} console.log('  detail:', (msg || t).replace(/\s+/g, ' ').slice(0, 300)); }
     return r.status;
   } catch (e) { return 'fail:' + (e.name || 'error'); }
 }
