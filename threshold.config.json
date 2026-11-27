@@ -30,6 +30,12 @@
       "id": "openrouter:google/gemma-4-26b-a4b-it:free",
       "label": "Gemma 4 26B A4B (free, OpenRouter)",
       "key": "openrouter",
+      "enabled": false
+    },
+    {
+      "id": "openrouter:nvidia/nemotron-3.5-lightning:free",
+      "label": "Nemotron 3.5 Lightning (free, OpenRouter)",
+      "key": "openrouter",
       "enabled": true
     }
   ],
