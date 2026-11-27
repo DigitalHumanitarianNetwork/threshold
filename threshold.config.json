@@ -42,12 +42,24 @@
       "id": "openai:chat:@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "label": "Llama 3.3 70B (Cloudflare Workers AI)",
       "key": "cloudflare",
-      "enabled": true
+      "enabled": false
     },
     {
       "id": "openai:chat:@cf/openai/gpt-oss-120b",
       "label": "gpt-oss-120b (Cloudflare Workers AI)",
       "key": "cloudflare",
+      "enabled": false
+    },
+    {
+      "id": "openai:chat:meta/llama-3.3-70b-instruct",
+      "label": "Llama 3.3 70B (NVIDIA build)",
+      "key": "nvidia",
+      "enabled": true
+    },
+    {
+      "id": "openai:chat:google/gemma-4-31b-it",
+      "label": "Gemma 4 31B (NVIDIA build)",
+      "key": "nvidia",
       "enabled": true
     }
   ],
