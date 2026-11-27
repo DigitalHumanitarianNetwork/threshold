@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Threshold Evaluations</title>
+<meta name="description" content="Threshold Evaluations lets you test AI models against your own questions and ideal answers, and publishes the scores.">
+<link rel="icon" href="https://brand.digitalhumanitarians.com/favicon.ico" sizes="any">
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="home.css">
+</head>
+<body class="home">
+
+<div class="tbar">
+  <div class="wrap tbar-in">
+    <a class="tmark" href="index.html">Threshold <span>Evaluations</span></a>
+    <nav class="tnav" aria-label="Site">
+      <a href="results.html">Results</a>
+      <a href="compare.html">Compare</a>
+      <a href="mailto:threshold@digitalhumanitarians.com">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Does the AI know your field? <em>Prove it.</em></h1>
+        <p class="sub">Threshold Evaluations lets you test AI models against your own questions. You set the standard. The models have to meet it.</p>
+        <div class="hbtns">
+          <a class="hbtn primary" href="results.html">See the live pilot</a>
+          <a class="hbtn ghost" href="mailto:threshold@digitalhumanitarians.com">Ask for a demo</a>
+        </div>
+      </div>
+      <div class="chart" role="img" aria-label="Illustrative bar chart of model scores with a pass line at 0.7">
+        <div class="cap"><span>Model scores</span><span>0 to 1</span></div>
+        <div class="bars">
+          <div class="thresh" style="bottom:70%"><span class="tag">PASS 0.70</span></div>
+          <div class="hbar pass" style="height:88%"><span class="v">0.88</span></div>
+          <div class="hbar pass" style="height:94%"><span class="v">0.94</span></div>
+          <div class="hbar warn" style="height:72%"><span class="v">0.72</span></div>
+          <div class="hbar fail" style="height:41%"><span class="v">0.41</span></div>
+          <div class="hbar pass" style="height:81%"><span class="v">0.81</span></div>
+          <div class="hbar fail" style="height:55%"><span class="v">0.55</span></div>
+          <div class="hbar pass" style="height:97%"><span class="v">0.97</span></div>
+        </div>
+        <div class="foot">Illustrative scores. Every model, measured against your standard.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="hsec problem">
+  <div class="wrap">
+    <div class="kicker">The problem</div>
+    <h2>General benchmarks test general knowledge. They do not test yours.</h2>
+    <p>AI models are being used for specialised work with no shared way to check whether they actually know the subject. A model that sounds confident can still be wrong about the things that matter in your field.</p>
+  </div>
+</section>
+
+<section class="hsec whatis">
+  <div class="wrap">
+    <div class="kicker">What it is</div>
+    <h2>Your questions. Your standard. Their scores.</h2>
+    <p class="lead">Threshold Evaluations is a service for testing AI models on the topics you know best.</p>
+    <div class="blocks">
+      <div class="block">
+        <h3>Your questions</h3>
+        <p>You build a set of questions on your topic, the way an expert would ask them.</p>
+      </div>
+      <div class="block">
+        <h3>Your standard</h3>
+        <p>For each question you write the ideal answer: the key points a good answer must cover.</p>
+      </div>
+      <div class="block">
+        <h3>Their scores</h3>
+        <p>The service asks every model your questions, checks each answer against your key points, and gives each model a score and a report.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hsec how">
+  <div class="wrap">
+    <div class="kicker">How it works</div>
+    <h2>Three steps, run as often as you need.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">01</div>
+        <div>
+          <h3>Ask</h3>
+          <p>Your question set is sent to the models you choose, whenever you want: on a schedule, or when a new model comes out.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">02</div>
+        <div>
+          <h3>Score</h3>
+          <p>Each answer is checked against your key points and scored from 0 to 1. A score of 0.7 or more is a pass.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="num">03</div>
+        <div>
+          <h3>Report</h3>
+          <p>You get a per-model report: overall score, question by question, and how scores change over time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hsec priv">
+  <div class="wrap">
+    <div class="kicker">Public good, private tests</div>
+    <h2>The test stays private. The results are public.</h2>
+    <p>Your questions and ideal answers stay private, so models cannot learn the test. Only aggregate scores are published, so everyone can see how models measure up over time.</p>
+  </div>
+</section>
+
+<section class="hsec pilot">
+  <div class="wrap">
+    <div class="kicker">Live pilot</div>
+    <h2>Already running: AI models tested on humanitarian response.</h2>
+    <p>A private question set written by a humanitarian expert, run against leading AI models. This is what the results look like today.</p>
+    <div class="collage">
+      <div class="shot">
+        <div class="chrome"><i></i><i></i><i></i></div>
+        <img src="assets/collage-models.jpg" alt="Model scores table from the live results page">
+        <div class="lbl">Model scores<span>Every model, one number, with its pass rate.</span></div>
+      </div>
+      <div class="shot">
+        <div class="chrome"><i></i><i></i><i></i></div>
+        <img src="assets/collage-model.jpg" alt="One model in detail from the live site">
+        <div class="lbl">One model, in detail<span>Mean score, pass rate, and scores by topic.</span></div>
+      </div>
+      <div class="shot">
+        <div class="chrome"><i></i><i></i><i></i></div>
+        <img src="assets/collage-questions.jpg" alt="Question by question scores from the live results page">
+        <div class="lbl">Question by question<span>Where a model passes and where it slips.</span></div>
+      </div>
+    </div>
+    <div class="pilotcta">
+      <a class="hbtn primary" href="results.html">See the results</a>
+      <a class="hbtn dark" href="compare.html">Compare models</a>
+    </div>
+    <p class="pilotnote">Pilot results, not a ranking. Scores come from an AI judge and are being checked against human scoring.</p>
+  </div>
+</section>
+
+<section class="hsec who">
+  <div class="wrap">
+    <div class="kicker">Who it is for</div>
+    <h2>Built for communities of practice.</h2>
+    <p>Humanitarian response first. Any field where the quality of an answer matters, and where experts can say what good looks like.</p>
+  </div>
+</section>
+
+<section class="hsec final" id="contact">
+  <div class="wrap">
+    <div class="kicker">Get started</div>
+    <h2>Want Threshold Evaluations for your topic?</h2>
+    <p>Email us and tell us about your field and what you would test. We will set up a demo.</p>
+    <a class="bigmail" href="mailto:threshold@digitalhumanitarians.com">threshold@digitalhumanitarians.com</a>
+  </div>
+</section>
+
+<footer class="tfoot">
+  <div class="wrap tfoot-in">
+    <div class="tbyline"><strong>Threshold Evaluations</strong> by <a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></div>
+    <a class="tmail" href="mailto:threshold@digitalhumanitarians.com">threshold@digitalhumanitarians.com</a>
+    <a href="https://digitalhumanitarians.com/" aria-label="Digital Humanitarian Network"><img class="tdhn" src="https://brand.digitalhumanitarians.com/DHN_LOGO_WHITE.png" alt="Digital Humanitarian Network"></a>
+  </div>
+</footer>
+
+</body>
+</html>
