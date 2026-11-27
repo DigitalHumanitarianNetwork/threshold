@@ -7,14 +7,19 @@
 <meta name="description" content="Threshold shows how AI models answer humanitarian questions. Pilot results.">
 <link rel="icon" href="https://brand.digitalhumanitarians.com/favicon.ico" sizes="any">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="shared.css">
 </head>
 <body>
-<header>
-  <div class="wrap">
-    <a href="https://digitalhumanitarians.com/" aria-label="Digital Humanitarian Network"><img src="https://brand.digitalhumanitarians.com/DHN_LOGO_WHITE.png" alt="Digital Humanitarian Network"></a>
+<div class="tbar">
+  <div class="wrap tbar-in">
+    <a class="tmark" href="index.html">Threshold <span>Evaluations</span></a>
+    <nav class="tnav" aria-label="Site">
+      <a href="results.html">Results</a>
+      <a href="compare.html">Compare</a>
+      <a href="mailto:threshold@digitalhumanitarians.com">Contact</a>
+    </nav>
   </div>
-</header>
-<nav aria-label="Threshold"><div class="wrap"><a href="index.html" class="on">Overview</a><a href="compare.html">Compare models</a></div></nav>
+</div>
 <div class="hero">
   <div class="wrap">
     <span class="tag">Pilot results</span>
@@ -62,13 +67,14 @@
       <div class="card"><h3>2. Score</h3><p>An AI judge checks each answer against the key points of a reference answer written for that question.</p></div>
       <div class="card"><h3>3. Publish</h3><p>Only aggregate scores are written to this public repository. Raw answers and answer keys are kept in private storage.</p></div>
     </div>
-    <p class="lead" style="margin-top:24px">Questions or ideas? Contact <a href="mailto:contact@digitalhumanitarians.com">contact@digitalhumanitarians.com</a>.</p>
+    <p class="lead" style="margin-top:24px">Questions or ideas? Contact <a href="mailto:threshold@digitalhumanitarians.com">threshold@digitalhumanitarians.com</a>.</p>
   </div>
 </section>
-<footer>
-  <div class="wrap">
-    <span>&copy; Digital Humanitarian Network</span>
-    <span><a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></span>
+<footer class="tfoot">
+  <div class="wrap tfoot-in">
+    <div class="tbyline"><strong>Threshold Evaluations</strong> by <a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></div>
+    <a class="tmail" href="mailto:threshold@digitalhumanitarians.com">threshold@digitalhumanitarians.com</a>
+    <a href="https://digitalhumanitarians.com/" aria-label="Digital Humanitarian Network"><img class="tdhn" src="https://brand.digitalhumanitarians.com/DHN_LOGO_WHITE.png" alt="Digital Humanitarian Network"></a>
   </div>
 </footer>
 <script src="site.js"></script>
