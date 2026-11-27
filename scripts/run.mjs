@@ -41,7 +41,7 @@ if (!qs.length) throw new Error('No questions found');
 
 // --- 2. build the Promptfoo config in the runner temp dir (never committed)
 const models = cfg.models.filter((m) => m.enabled !== false).filter((m) => {
-  const k = m.key === 'gemini' ? process.env.GOOGLE_API_KEY : m.key === 'cloudflare' ? (process.env.CLOUDFLARE_API_TOKEN && process.env.CLOUDFLARE_ACCOUNT_ID) : process.env.OPENROUTER_API_KEY;
+  const k = m.key === 'gemini' ? process.env.GOOGLE_API_KEY : m.key === 'cloudflare' ? (process.env.CLOUDFLARE_API_TOKEN && process.env.CLOUDFLARE_ACCOUNT_ID) : m.key === 'nvidia' ? process.env.NVIDIA_API_KEY : process.env.OPENROUTER_API_KEY;
   if (!k) console.log(`Skipping ${m.label}: no key`);
   return !!k;
 });
@@ -59,6 +59,7 @@ const cfBase = `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOU
 function provCfg(m) {
   const config = { temperature: 0 };
   if (m.key === 'cloudflare') { config.apiBaseUrl = cfBase; config.apiKeyEnvar = 'CLOUDFLARE_API_TOKEN'; }
+  if (m.key === 'nvidia') { config.apiBaseUrl = 'https://integrate.api.nvidia.com/v1'; config.apiKeyEnvar = 'NVIDIA_API_KEY'; }
   return { id: m.id, label: m.label, config };
 }
 const pf = {
@@ -81,8 +82,9 @@ async function ping(id) {
         headers: { 'content-type': 'application/json', 'x-goog-api-key': process.env.GOOGLE_API_KEY },
         body: JSON.stringify({ contents: [{ parts: [{ text: 'Reply with the word ok.' }] }] }) });
     } else if (prov === 'openai') {
-      r = await fetch(cfBase + '/chat/completions', { method: 'POST', signal: ctl,
-        headers: { 'content-type': 'application/json', authorization: 'Bearer ' + process.env.CLOUDFLARE_API_TOKEN },
+      const nv = !model.includes('@cf/');
+      r = await fetch((nv ? 'https://integrate.api.nvidia.com/v1' : cfBase) + '/chat/completions', { method: 'POST', signal: ctl,
+        headers: { 'content-type': 'application/json', authorization: 'Bearer ' + (nv ? process.env.NVIDIA_API_KEY : process.env.CLOUDFLARE_API_TOKEN) },
         body: JSON.stringify({ model: model.replace(/^chat:/, ''), messages: [{ role: 'user', content: 'Reply with the word ok.' }], max_tokens: 50 }) });
     } else {
       r = await fetch('https://openrouter.ai/api/v1/chat/completions', { method: 'POST', signal: ctl,
