@@ -51,32 +51,44 @@
       "enabled": false
     },
     {
-      "id": "openai:chat:meta/llama-3.3-70b-instruct",
-      "label": "Llama 3.3 70B (NVIDIA build)",
-      "key": "nvidia",
-      "enabled": false
-    },
-    {
-      "id": "openai:chat:google/gemma-4-31b-it",
-      "label": "Gemma 4 31B (NVIDIA build)",
-      "key": "nvidia",
-      "enabled": false
-    },
-    {
-      "id": "openai:chat:mistralai/mistral-small-4-119b-2603",
-      "label": "Mistral Small 4 119B (NVIDIA build)",
+      "id": "openai:chat:moonshotai/kimi-k2.6",
+      "label": "Kimi K2.6 (NVIDIA build)",
       "key": "nvidia",
       "enabled": true
     },
     {
-      "id": "openai:chat:nvidia/llama-3.3-nemotron-super-49b-v1.5",
-      "label": "Nemotron Super 49B v1.5 (NVIDIA build)",
+      "id": "openai:chat:mistralai/mistral-large-3-675b-instruct-2512",
+      "label": "Mistral Large 3 675B (NVIDIA build)",
       "key": "nvidia",
       "enabled": true
     },
     {
-      "id": "openai:chat:deepseek-ai/deepseek-v4-flash",
-      "label": "DeepSeek V4 Flash (NVIDIA build)",
+      "id": "openai:chat:mistralai/mistral-medium-3.5-128b",
+      "label": "Mistral Medium 3.5 128B (NVIDIA build)",
+      "key": "nvidia",
+      "enabled": true
+    },
+    {
+      "id": "openai:chat:deepseek-ai/deepseek-v4-pro",
+      "label": "DeepSeek V4 Pro (NVIDIA build)",
+      "key": "nvidia",
+      "enabled": true
+    },
+    {
+      "id": "openai:chat:nvidia/llama-3.1-nemotron-ultra-253b-v1",
+      "label": "Nemotron Ultra 253B (NVIDIA build)",
+      "key": "nvidia",
+      "enabled": true
+    },
+    {
+      "id": "openai:chat:mistralai/ministral-14b-instruct-2512",
+      "label": "Ministral 14B (NVIDIA build)",
+      "key": "nvidia",
+      "enabled": true
+    },
+    {
+      "id": "openai:chat:mistralai/mistral-large-2-instruct",
+      "label": "Mistral Large 2 (NVIDIA build)",
       "key": "nvidia",
       "enabled": true
     }
