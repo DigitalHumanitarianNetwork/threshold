@@ -14,6 +14,7 @@ T.load().then(function(all){
   runs.slice().reverse().forEach(function(d){d.models.forEach(function(m){var r=T.el('tr');r.appendChild(T.el('td',null,T.when(d)));var c=T.el('td');c.appendChild(T.mlink(m.label));r.appendChild(c);r.appendChild(T.el('td',null,m.answered+' of '+d.question_count));r.appendChild(T.el('td',null,T.fmt(m.mean_score)));r.appendChild(T.el('td',null,m.pass_rate==null?'n/a':Math.round(m.pass_rate*100)+'%'));h.appendChild(r);});});
   draw();}
   function draw(){
+    printInfo();
     var tp=ft.value,df=fd.value;
     var b=document.getElementById('board');T.clear(b);var hr=T.el('tr');['Model','Mean score','Scored','Passed','Run'].forEach(function(x){hr.appendChild(T.el('th',null,x));});b.appendChild(hr);
     var rows=L.labels.map(function(l){var e=L.by[l],sc=T.qscores(e.run,l,tp,df),ok=sc.filter(function(x){return x!=null;});return {l:l,run:e.run,mean:T.mean(sc),n:ok.length,tot:sc.length,pass:ok.filter(function(x){return x>=e.run.pass_threshold;}).length};});
@@ -27,6 +28,17 @@ T.load().then(function(all){
       var tr=T.el('tr');tr.appendChild(T.el('td',null,q.id));tr.appendChild(T.el('td',null,q.topic));tr.appendChild(T.el('td',null,q.difficulty));
       L.labels.forEach(function(l){var run=L.by[l].run,qq=run.questions.filter(function(x){return x.id===id;})[0];var s=qq&&qq.scores?qq.scores[l]:null;var td=T.el('td');if(s==null)td.appendChild(T.el('span',{'class':'nos'},'no score'));else td.appendChild(T.chip(s));tr.appendChild(td);});t.appendChild(tr);});
   }
+  var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function printInfo(){var d=new Date();
+    document.getElementById('p-field').textContent=cap(cur);
+    document.getElementById('p-topic').textContent=ft.value||'All topics';
+    document.getElementById('p-diff').textContent=fd.value||'All difficulties';
+    document.getElementById('p-date').textContent=d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();
+    document.getElementById('p-url').textContent=location.host+location.pathname;}
+  var oldTitle=document.title;
+  window.addEventListener('beforeprint',function(){printInfo();document.title='Threshold - Results - '+cap(cur)+' - '+new Date().toISOString().slice(0,10);});
+  window.addEventListener('afterprint',function(){document.title=oldTitle;});
+  document.getElementById('btn-pdf').onclick=function(){window.print();};
   ft.onchange=draw;fd.onchange=draw;fsel.onchange=function(){cur=fsel.value;setup();};setup();
 }).catch(T.fail);
 })();
