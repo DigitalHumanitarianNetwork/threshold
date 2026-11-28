@@ -1,7 +1,7 @@
 /* Threshold admin area. Sign-in with Google, every action checked by the
    Apps Script go-between against the Allowlist tab of the private sheet. */
 var THR_CLIENT_ID = '410104533080-hf6usfgcbdcjaho8f70sbokssjcp0k90.apps.googleusercontent.com';
-var THR_API = 'PASTE_APPS_SCRIPT_WEB_APP_URL_HERE'; // /exec URL of the deployed go-between
+var THR_API = 'https://script.google.com/macros/s/AKfycbzYTbvqBkUhDG-bjU3LYGXAIH00VSvWkFfcv6VLw2bJOnwjEv9VWaIl_0nzD-p1sokUlQ/exec'; // /exec URL of the deployed go-between
 
 function thrToken() { return sessionStorage.getItem('thr_token') || ''; }
 
