@@ -17,6 +17,8 @@ T.load=function(){return T.get('results/index.json').then(function(ix){
 /* label -> {run, model} for the most recent run that includes the model */
 T.latest=function(runs){var o={},order=[];runs.forEach(function(r){r.models.forEach(function(m){if(!o[m.label])order.push(m.label);o[m.label]={run:r,model:m};});});return {by:o,labels:order};};
 T.qscores=function(run,label,topic,diff){return run.questions.filter(function(q){return (!topic||q.topic===topic)&&(!diff||q.difficulty===diff);}).map(function(q){return q.scores?q.scores[label]:null;});};
+/* pass line for a question: its own line, else the run's field line, else the old global line */
+T.qline=function(run,q){return q.threshold!=null?q.threshold:(run.field_threshold!=null?run.field_threshold:(run.pass_threshold!=null?run.pass_threshold:0.7));};
 T.opts=function(sel,vals,all,cur){T.clear(sel);if(all)sel.appendChild(T.el('option',{value:''},all));vals.forEach(function(v){var o=T.el('option',{value:v},v);if(v===cur)o.selected=true;sel.appendChild(o);});};
 T.uniq=function(runs,k){var s={};runs.forEach(function(r){r.questions.forEach(function(q){if(q[k])s[q[k]]=1;});});return Object.keys(s);};
 T.bar=function(parent,label,val,n,color){var r=T.el('div',{'class':'bar'});r.appendChild(T.el('span',null,label+(n!=null?' (n='+n+')':'')));
