@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in | Threshold Evaluations</title>
+<meta name="description" content="Sign in to manage Threshold Evaluations: fields, question sets and model runs. Access is by approval.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="https://brand.digitalhumanitarians.com/favicon.ico" sizes="any">
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="admin.css">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+</head>
+<body>
+
+<div class="tbar">
+  <div class="wrap tbar-in">
+    <a class="tmark" href="index.html">Threshold <span>Evaluations</span> <span class="alpha-badge">alpha</span></a>
+    <nav class="tnav" aria-label="Site">
+      <a href="results.html">Results</a>
+      <a href="compare.html">Compare</a>
+      <a href="sectors.html">Sectors</a>
+      <a href="mailto:threshold@digitalhumanitarians.com">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div class="login-hero">
+  <div class="wrap">
+    <h1>Manage <em>Threshold.</em></h1>
+    <p>Build question sets, run models against them and decide what gets published. Sign in with the Google account the team approved.</p>
+  </div>
+</div>
+
+<section class="asect" style="padding-top:0;">
+  <div class="wrap">
+    <div class="login-card">
+      <h2 class="ah2" style="margin-bottom:6px;">Sign in</h2>
+      <p style="color:var(--muted);font-size:15.5px;margin:0 0 22px;">One click with Google. No new password.</p>
+      <div id="g_btn"></div>
+      <p id="gsi-wait" style="color:var(--muted);font-size:14.5px;margin:12px 0 0;">Loading Google sign-in&hellip;</p>
+      <p id="login-msg" style="font-size:14.5px;margin:12px 0 0;"></p>
+      <ul class="login-notes">
+        <li><b style="color:var(--ink)">Access is by approval.</b> Your email is checked against the approved-users list in a private sheet. Roles are admin and editor.</li>
+        <li><b style="color:var(--ink)">Not on the list yet?</b> Your sign-in is saved as <i>pending</i> and an admin gets an email. Nothing else happens until they approve you.</li>
+        <li><b style="color:var(--ink)">Nothing is stored in your browser.</b> The sign-in token is checked by a small go-between service on every action, then forgotten when you close the tab.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer class="tfoot">
+  <div class="wrap tfoot-in">
+    <div class="tbyline"><strong>Threshold Evaluations</strong> by <a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></div>
+    <a class="tmail" href="mailto:threshold@digitalhumanitarians.com">threshold@digitalhumanitarians.com</a>
+    <a href="https://digitalhumanitarians.com/" aria-label="Digital Humanitarian Network"><img class="tdhn" src="https://brand.digitalhumanitarians.com/DHN_LOGO_WHITE.png" alt="Digital Humanitarian Network"></a>
+  </div>
+</footer>
+
+<script src="admin.js"></script>
+<script>
+  if (thrToken()) { location.href = 'admin.html'; }
+  else { thrInitLogin(document.getElementById('g_btn'), document.getElementById('gsi-wait'), document.getElementById('login-msg')); }
+</script>
+
+</body>
+</html>

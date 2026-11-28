@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin | Threshold Evaluations</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="https://brand.digitalhumanitarians.com/favicon.ico" sizes="any">
+<link rel="stylesheet" href="shared.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="tbar">
+  <div class="wrap tbar-in">
+    <a class="tmark" href="index.html">Threshold <span>Evaluations</span> <span class="alpha-badge">alpha</span></a>
+    <nav class="tnav" aria-label="Site">
+      <a href="results.html">Results</a>
+      <a href="compare.html">Compare</a>
+      <a href="sectors.html">Sectors</a>
+      <a href="mailto:threshold@digitalhumanitarians.com">Contact</a>
+    </nav>
+  </div>
+</div>
+
+<div class="abanner">
+  <div class="wrap"><strong>Private area.</strong> The questions and ideal answers here are sent to AI providers for testing on free tiers. Never put sensitive or personal information in a question set.</div>
+</div>
+
+<div class="who-bar">
+  <div class="wrap">
+    <div class="who-name" id="who-name">Checking sign-in&hellip;</div>
+    <a class="signout" id="signout" href="login.html">Sign out</a>
+  </div>
+</div>
+
+<section class="asect">
+  <div class="wrap">
+    <div class="kicker">Admin area</div>
+    <h1 class="ah1">Fields and question sets</h1>
+    <p class="alead">A field is a topic with its own question set, ideal answers and pass line. Editors and admins can create fields and run models. Only admins manage people.</p>
+
+    <div class="acard" style="padding:0;overflow:hidden;">
+      <table class="atable" id="fields-table">
+        <tr><th>Field</th><th>Questions</th><th>Pass line</th><th>Status</th><th></th></tr>
+        <tr><td colspan="5" style="color:var(--muted)">Loading fields&hellip;</td></tr>
+      </table>
+    </div>
+    <p id="fields-msg" style="font-size:14.5px;margin-top:10px;"></p>
+
+    <div class="abtnrow" style="margin-top:22px;">
+      <a class="abtn dark" href="new-field.html">+ New field</a>
+    </div>
+  </div>
+</section>
+
+<section class="asect alt" id="people-sect" style="display:none;">
+  <div class="wrap">
+    <h2 class="ah2">People <span class="onlytag">Admin only</span></h2>
+    <p class="alead">This list lives in the <b>Allowlist</b> tab of the private sheet, same as the Members Board project. New sign-ins appear here as pending and an admin gets an email.</p>
+    <div class="acard" style="padding:0;overflow:hidden;">
+      <table class="atable" id="people-table">
+        <tr><th>Google account</th><th>Role</th><th>Can do</th><th></th></tr>
+      </table>
+    </div>
+    <p id="people-msg" style="font-size:14.5px;margin-top:10px;"></p>
+    <p class="fhint" style="margin-top:14px;">Approving someone is a one-word change in the sheet: pending becomes editor, or admin. The tab is locked to named people, same setup as the Members Board.</p>
+  </div>
+</section>
+
+<footer class="tfoot">
+  <div class="wrap tfoot-in">
+    <div class="tbyline"><strong>Threshold Evaluations</strong> by <a href="https://digitalhumanitarians.com/">digitalhumanitarians.com</a></div>
+    <a class="tmail" href="mailto:threshold@digitalhumanitarians.com">threshold@digitalhumanitarians.com</a>
+    <a href="https://digitalhumanitarians.com/" aria-label="Digital Humanitarian Network"><img class="tdhn" src="https://brand.digitalhumanitarians.com/DHN_LOGO_WHITE.png" alt="Digital Humanitarian Network"></a>
+  </div>
+</footer>
+
+<script src="admin.js"></script>
+<script>
+var me = null;
+thrGuard(['admin', 'editor']).then(function (r) {
+  me = r;
+  loadFields();
+  if (r.role === 'admin') { document.getElementById('people-sect').style.display = ''; loadPeople(); }
+}).catch(function (e) { if (e.message !== 'redirect' && e.message !== 'pending') console.error(e); });
+
+function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+function loadFields() {
+  thrApi('listFields').then(function (r) {
+    var t = document.getElementById('fields-table');
+    if (r.error) { thrMsg(document.getElementById('fields-msg'), 'Could not load fields: ' + r.error, true); return; }
+    t.innerHTML = '<tr><th>Field</th><th>Questions tab</th><th>Pass line</th><th>Status</th><th></th></tr>';
+    r.fields.forEach(function (f) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td><b>' + esc(f.name) + '</b><br><span style="color:var(--muted);font-size:14px;">' + esc(f.description) + '</span></td>' +
+        '<td>' + esc(f.tab) + '</td><td>' + esc(f.threshold) + '</td><td>' + esc(f.status) + '</td>' +
+        '<td style="white-space:nowrap;text-align:right;"><a class="abtn primary small" href="run.html?field=' + encodeURIComponent(f.id) + '">Run a model</a></td>';
+      t.appendChild(tr);
+    });
+  });
+}
+
+function loadPeople() {
+  thrApi('listPeople').then(function (r) {
+    var t = document.getElementById('people-table');
+    if (r.error) { thrMsg(document.getElementById('people-msg'), 'Could not load people: ' + r.error, true); return; }
+    t.innerHTML = '<tr><th>Google account</th><th>Role</th><th>Can do</th><th></th></tr>';
+    r.people.forEach(function (p) {
+      var tr = document.createElement('tr');
+      var chip, canDo, actions = '';
+      if (p.role === 'admin') { chip = '<span class="role-chip lite" style="margin-left:0;">Admin</span>'; canDo = 'Everything, plus manage people'; }
+      else if (p.role === 'editor') { chip = '<span class="role-chip editor lite" style="margin-left:0;">Editor</span>'; canDo = 'Create fields, edit question sets, run models'; }
+      else { chip = '<span style="display:inline-block;padding:2px 10px;border-radius:999px;border:1.5px solid #c9c4d4;color:var(--muted);font-size:12px;font-weight:700;">Pending</span>'; canDo = 'Nothing yet'; }
+      if (String(p.email).toLowerCase() !== me.email.toLowerCase()) {
+        if (p.role === 'pending') actions = '<a class="abtn primary small" href="#" data-setrole="editor" data-email="' + esc(p.email) + '">Approve as editor</a> <a class="abtn ghost small" href="#" data-setrole="remove" data-email="' + esc(p.email) + '">Decline</a>';
+        else actions = '<a class="abtn ghost small" href="#" data-setrole="' + (p.role === 'admin' ? 'editor' : 'admin') + '" data-email="' + esc(p.email) + '">Make ' + (p.role === 'admin' ? 'editor' : 'admin') + '</a> <a class="abtn ghost small" href="#" data-setrole="remove" data-email="' + esc(p.email) + '">Remove</a>';
+      } else { actions = '<span style="color:var(--muted);font-size:14px;">You</span>'; }
+      tr.innerHTML = '<td>' + esc(p.email) + (p.note ? '<br><span style="color:var(--muted);font-size:13.5px;">' + esc(p.note) + '</span>' : '') + '</td><td>' + chip + '</td><td>' + canDo + '</td><td style="text-align:right;white-space:nowrap;">' + actions + '</td>';
+      t.appendChild(tr);
+    });
+    t.querySelectorAll('[data-setrole]').forEach(function (a) {
+      a.onclick = function (e) {
+        e.preventDefault();
+        var email = a.getAttribute('data-email'), role = a.getAttribute('data-setrole');
+        thrApi('setRole', { email: email, role: role }).then(function (r2) {
+          if (r2.error) thrMsg(document.getElementById('people-msg'), 'Change failed: ' + r2.error, true);
+          else { thrMsg(document.getElementById('people-msg'), email + ' is now ' + (role === 'remove' ? 'removed' : role) + '.', false); loadPeople(); }
+        });
+      };
+    });
+  });
+}
+</script>
+
+</body>
+</html>
