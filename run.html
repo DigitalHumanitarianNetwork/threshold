@@ -158,6 +158,7 @@ document.getElementById('runbtn').onclick = function () {
     btn.disabled = false;
     if (r.error === 'cap_reached') msg('The daily run limit (' + r.cap + ') is reached. Try again tomorrow.', true);
     else if (r.error === 'github_not_connected') msg('Runs are not connected to GitHub yet. Ask the admin to finish the setup.', true);
+    else if (r.error === 'github_refused') msg('GitHub refused the run. Check that the saved token (setup step 3) is still valid and has Actions permission on the threshold repo, then try again.', true);
     else if (r.error) msg('Could not start the run: ' + r.error, true);
     else { msg('Run started. Scores appear on the Results page when it finishes.', false); loadRuns(); }
   }).catch(function () { btn.disabled = false; msg('Could not reach the server. Try again.', true); });
