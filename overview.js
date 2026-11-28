@@ -17,7 +17,7 @@ T.load().then(function(all){
     printInfo();
     var tp=ft.value,df=fd.value;
     var b=document.getElementById('board');T.clear(b);var hr=T.el('tr');['Model','Mean score','Scored','Passed','Run'].forEach(function(x){hr.appendChild(T.el('th',null,x));});b.appendChild(hr);
-    var rows=L.labels.map(function(l){var e=L.by[l],sc=T.qscores(e.run,l,tp,df),ok=sc.filter(function(x){return x!=null;});return {l:l,run:e.run,mean:T.mean(sc),n:ok.length,tot:sc.length,pass:ok.filter(function(x){return x>=e.run.pass_threshold;}).length};});
+    var rows=L.labels.map(function(l){var e=L.by[l],qq=e.run.questions.filter(function(q){return (!tp||q.topic===tp)&&(!df||q.difficulty===df);}),sc=qq.map(function(q){return q.scores?q.scores[l]:null;}),ok=sc.filter(function(x){return x!=null;});return {l:l,run:e.run,mean:T.mean(sc),n:ok.length,tot:sc.length,pass:qq.filter(function(q){var s=q.scores?q.scores[l]:null;return s!=null&&s>=T.qline(e.run,q);}).length};});
     rows.sort(function(a,b){return (b.mean==null?-1:b.mean)-(a.mean==null?-1:a.mean);});
     rows.forEach(function(r){var tr=T.el('tr');var c=T.el('td');c.appendChild(T.mlink(r.l));tr.appendChild(c);
       var m=T.el('td');var w=T.el('div',{'class':'bars'});T.bar(w,'',r.mean,null);m.appendChild(w);tr.appendChild(m);
