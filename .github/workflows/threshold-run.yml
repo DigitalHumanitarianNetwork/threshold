@@ -8,6 +8,9 @@ on:
       field:
         description: 'Field to run (its questions tab in the private sheet)'
         default: 'humanitarian'
+      model:
+        description: 'Run only this model id (empty = all enabled models)'
+        default: ''
 concurrency: threshold-run
 permissions:
   contents: write
@@ -39,6 +42,7 @@ jobs:
           NVIDIA_API_KEY: ${{ secrets.NVIDIA_API_KEY }}
           QUESTION_LIMIT: ${{ inputs.question_limit }}
           FIELD: ${{ inputs.field }}
+          MODEL: ${{ inputs.model }}
         run: node scripts/run.mjs
       - name: Commit results
         run: |
