@@ -179,7 +179,7 @@ function runModel(actor, fieldId, modelId) {
     method: 'post', muteHttpExceptions: true,
     headers: { Authorization: 'Bearer ' + gh, Accept: 'application/vnd.github+json' },
     contentType: 'application/json',
-    payload: JSON.stringify({ ref: 'main', inputs: { question_limit: '0', field: fieldId } }),
+    payload: JSON.stringify({ ref: 'main', inputs: { question_limit: '0', field: fieldId, model: modelId } }),
   });
   if (res.getResponseCode() !== 204) return { error: 'github_refused' };
   runsTab().appendRow([new Date(), actor, fieldId, modelId, model.label, 'requested']);
