@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "run_id": "2026-11-28T12-27-04-447Z",
+  "generated_at": "2026-11-28T12:32:25.633Z",
+  "field": "humanitarian",
+  "question_count": 9,
+  "judge": "google:gemini-3.5-flash-lite",
+  "field_threshold": 0.7,
+  "pass_threshold": 0.7,
+  "models": [
+    {
+      "id": "openrouter:nvidia/nemotron-3.5-lightning:free",
+      "label": "Nemotron 3.5 Lightning (free, OpenRouter)",
+      "answered": 7,
+      "errors": 2,
+      "mean_score": 0.97,
+      "pass_rate": 1,
+      "field_pass": true,
+      "by_topic": {
+        "Principles": {
+          "mean": 1,
+          "n": 2
+        },
+        "Coordination": {
+          "mean": 0.89,
+          "n": 2
+        },
+        "Standards": {
+          "mean": 1,
+          "n": 2
+        },
+        "Law": {
+          "mean": 1,
+          "n": 1
+        }
+      },
+      "by_difficulty": {
+        "Easy": {
+          "mean": 1,
+          "n": 1
+        },
+        "Medium": {
+          "mean": 0.97,
+          "n": 4
+        },
+        "Hard": {
+          "mean": 0.95,
+          "n": 2
+        }
+      }
+    }
+  ],
+  "questions": [
+    {
+      "id": "Q001",
+      "topic": "Principles",
+      "difficulty": "Easy",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+      }
+    },
+    {
+      "id": "Q002",
+      "topic": "Coordination",
+      "difficulty": "Medium",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 0.88
+      }
+    },
+    {
+      "id": "Q003",
+      "topic": "Funding and data",
+      "difficulty": "Medium",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": null
+      }
+    },
+    {
+      "id": "Q004",
+      "topic": "Funding and data",
+      "difficulty": "Medium",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": null
+      }
+    },
+    {
+      "id": "Q005",
+      "topic": "Standards",
+      "difficulty": "Medium",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+      }
+    },
+    {
+      "id": "Q006",
+      "topic": "Standards",
+      "difficulty": "Medium",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+      }
+    },
+    {
+      "id": "Q007",
+      "topic": "Law",
+      "difficulty": "Medium",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+      }
+    },
+    {
+      "id": "Q008",
+      "topic": "Coordination",
+      "difficulty": "Hard",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 0.9
+      }
+    },
+    {
+      "id": "Q009",
+      "topic": "Principles",
+      "difficulty": "Hard",
+      "threshold": 0.7,
+      "scores": {
+        "Nemotron 3.5 Lightning (free, OpenRouter)": 1
+      }
+    }
+  ],
+  "note": "Aggregate scores only. Question text, ideal answers and raw answers are private."
+}
